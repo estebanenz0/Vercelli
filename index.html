@@ -1,0 +1,1201 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercelli — Bienes raices, presencia digital y marketing</title>
+<meta name="description" content="Vercelli combina tecnologia, diseño y estrategia para hacer crecer tu negocio. Inmobiliaria, paginas web y marketing en La Paz, Bolivia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VERCELLI — Sistema de diseño
+   Noche #0A1428 · Marino #1B2B4B · Champagne #D4B48A
+   Champagne claro #E9D5B3 · Crema #F5F2EA · Tinta #17233B
+   ============================================================ */
+:root{
+  --noche:#0A1428;
+  --noche-2:#0D1B33;
+  --marino:#1B2B4B;
+  --oro:#D4B48A;
+  --oro-claro:#E9D5B3;
+  --crema:#F5F2EA;
+  --tinta:#17233B;
+  --linea-oro:rgba(212,180,138,.35);
+  --linea-crema:rgba(245,242,234,.10);
+  --serif:'Cormorant Garamond', Georgia, serif;
+  --sans:'Manrope', -apple-system, sans-serif;
+  --dur:.8s;
+  --curva:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+html.lenis, html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{
+  font-family:var(--sans);
+  background:var(--noche);
+  color:var(--crema);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+body.lock{overflow:hidden}
+::selection{background:var(--oro);color:var(--noche)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+
+/* ---------- Grano cinematografico ---------- */
+.grain{
+  position:fixed;inset:-50%;z-index:80;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.038;
+  animation:grano 9s steps(6) infinite;
+}
+@keyframes grano{
+  0%,100%{transform:translate(0,0)}
+  20%{transform:translate(-2%,1.5%)}
+  40%{transform:translate(1.5%,-2%)}
+  60%{transform:translate(-1%,-1%)}
+  80%{transform:translate(2%,1%)}
+}
+
+/* ---------- Cursor personalizado ---------- */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;z-index:200;pointer-events:none;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+}
+.cursor-dot{width:6px;height:6px;background:var(--oro)}
+.cursor-ring{
+  width:38px;height:38px;
+  border:1px solid var(--linea-oro);
+  transition:width .35s var(--curva),height .35s var(--curva),border-color .35s;
+}
+.cursor-ring.activo{width:64px;height:64px;border-color:var(--oro)}
+@media (pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+@media (pointer:fine){html.cursor-oculto,html.cursor-oculto *{cursor:none!important}}
+
+/* ---------- Cargador ---------- */
+.cargador{
+  position:fixed;inset:0;z-index:150;
+  background:var(--noche);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2rem;
+}
+.cargador-marca{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(2.2rem,6vw,4rem);
+  letter-spacing:.42em;text-indent:.42em;
+  display:flex;overflow:hidden;
+}
+.cargador-marca span{display:inline-block;transform:translateY(120%)}
+.cargador-linea{
+  width:min(320px,60vw);height:1px;
+  background:var(--linea-crema);
+  position:relative;overflow:hidden;
+}
+.cargador-linea i{
+  position:absolute;inset:0;background:var(--oro);
+  transform:scaleX(0);transform-origin:left;
+}
+.cargador-cifra{
+  font-size:.72rem;letter-spacing:.35em;color:var(--oro);
+  font-weight:500;
+}
+
+/* ---------- Escena 3D fija ---------- */
+#escena{
+  position:fixed;inset:0;z-index:0;
+  pointer-events:none;
+}
+#escena canvas{display:block;width:100%;height:100%}
+.halo{
+  position:fixed;z-index:0;pointer-events:none;border-radius:50%;
+  filter:blur(90px);opacity:.5;
+}
+.halo-a{width:55vw;height:55vw;left:-18vw;top:-12vw;background:radial-gradient(circle,#22375f 0%,transparent 65%);animation:deriva-a 26s ease-in-out infinite alternate}
+.halo-b{width:44vw;height:44vw;right:-14vw;top:30vh;background:radial-gradient(circle,rgba(212,180,138,.20) 0%,transparent 65%);animation:deriva-b 32s ease-in-out infinite alternate}
+@keyframes deriva-a{from{transform:translate(0,0) scale(1)}to{transform:translate(6vw,8vh) scale(1.15)}}
+@keyframes deriva-b{from{transform:translate(0,0) scale(1)}to{transform:translate(-7vw,-6vh) scale(1.1)}}
+
+/* ---------- Navegacion ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem clamp(1.2rem,4vw,3.5rem);
+  transition:background .5s,backdrop-filter .5s,padding .5s,border-color .5s;
+  border-bottom:1px solid transparent;
+}
+.nav.solida{
+  background:rgba(10,20,40,.72);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom-color:var(--linea-crema);
+  padding-top:.9rem;padding-bottom:.9rem;
+}
+.nav-marca{
+  font-family:var(--serif);font-weight:600;
+  font-size:1.25rem;letter-spacing:.34em;text-indent:.34em;
+  display:flex;align-items:center;
+}
+.nav-punto{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--oro);
+  box-shadow:0 0 0 4px rgba(212,180,138,.14);
+  transition:transform .4s var(--curva),box-shadow .4s;
+  display:block;
+}
+.nav-marca:hover .nav-punto{transform:scale(1.25);box-shadow:0 0 0 7px rgba(212,180,138,.18)}
+.nav-links{display:flex;gap:2.4rem;align-items:center}
+.nav-link{
+  font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:500;color:rgba(245,242,234,.72);
+  position:relative;padding:.3rem 0;
+  transition:color .3s;
+}
+.nav-link::after{
+  content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--oro);transform:scaleX(0);transform-origin:right;
+  transition:transform .45s var(--curva);
+}
+.nav-link:hover{color:var(--crema)}
+.nav-link:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-sesion{
+  font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  padding:.62rem 1.5rem;border:1px solid rgba(245,242,234,.3);border-radius:99px;
+  background:transparent;color:var(--crema);
+  transition:border-color .35s,background .35s,color .35s,transform .35s;
+  display:inline-block;
+}
+.nav-sesion:hover{border-color:var(--oro);background:var(--oro);color:var(--noche);transform:translateY(-1px)}
+
+/* Menu movil */
+.burger{
+  display:none;width:44px;height:44px;background:none;border:none;
+  flex-direction:column;justify-content:center;align-items:center;gap:7px;z-index:130;
+  flex-shrink:0;padding:0;
+}
+.burger i{display:block;width:26px;height:1.5px;background:var(--crema);transition:transform .4s var(--curva),opacity .3s}
+.burger.abierto i:first-child{transform:translateY(4.2px) rotate(45deg)}
+.burger.abierto i:last-child{transform:translateY(-4.2px) rotate(-45deg)}
+.menu-movil{
+  position:fixed;inset:0;z-index:120;background:rgba(8,15,30,.97);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(2rem,8vw,4rem);gap:.4rem;
+  opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s;
+}
+.menu-movil.abierto{opacity:1;visibility:visible}
+.menu-movil a{
+  font-family:var(--serif);font-size:clamp(2.2rem,9vw,3.4rem);font-weight:500;
+  padding:.35rem 0;color:var(--crema);
+  border-bottom:1px solid var(--linea-crema);
+  transform:translateY(30px);opacity:0;
+  transition:transform .6s var(--curva),opacity .6s,color .3s;
+}
+.menu-movil.abierto a{transform:translateY(0);opacity:1}
+.menu-movil a:hover{color:var(--oro)}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;z-index:2;
+  min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;
+  padding:9rem clamp(1.2rem,5vw,4rem) 5rem;
+}
+.hero-sobre{
+  font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--oro);font-weight:500;margin-bottom:0;
+  display:flex;align-items:center;gap:1.2rem;
+}
+.hero-sobre::before,.hero-sobre::after{
+  content:'';width:44px;height:1px;background:var(--linea-oro);
+}
+.hero-titulo{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(1.4rem,3.1vw,2.5rem);
+  line-height:1.22;letter-spacing:.01em;
+  max-width:24ch;margin-top:clamp(9rem,26vh,17rem);
+}
+.hero-titulo .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+.hero-titulo .wi{display:inline-block;will-change:transform}
+.hero-titulo em{font-style:italic;color:var(--oro-claro)}
+.hero-titulo.brillo{
+  background:linear-gradient(105deg,var(--crema) 0%,var(--crema) 38%,var(--oro-claro) 50%,var(--crema) 62%,var(--crema) 100%);
+  background-size:240% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  animation:barrido 2.4s var(--curva) .2s 1 both;
+}
+.hero-titulo.brillo .wi,.hero-titulo.brillo em{color:transparent;-webkit-text-fill-color:transparent}
+@keyframes barrido{from{background-position:130% 0}to{background-position:-30% 0}}
+/* Lienzo de la marca en particulas */
+.hero-marca-canvas{
+  position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
+  width:min(94vw,1200px);height:38vh;z-index:3;pointer-events:none;
+}
+.hero-marca-fallback{
+  position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(2.8rem,12vw,8rem);letter-spacing:.14em;text-indent:.14em;
+  color:var(--oro-claro);text-align:center;opacity:0;pointer-events:none;
+}
+.sin-motion .hero-marca-fallback,.no-webgl .hero-marca-fallback{opacity:1}
+.no-webgl .hero-marca-canvas{display:none}
+@media (max-width:1100px){
+.hero-marca-canvas{display:none!important}
+.hero-marca-fallback{opacity:1!important}
+}
+.hero-sub{
+  margin-top:1.4rem;max-width:46ch;
+  font-size:clamp(.95rem,1.4vw,1.08rem);font-weight:300;
+  color:rgba(245,242,234,.68);line-height:1.9;
+}
+.hero-acciones{margin-top:3rem;display:flex;gap:1.1rem;flex-wrap:wrap;justify-content:center}
+.btn{
+  position:relative;overflow:hidden;
+  font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  padding:1.05rem 2.4rem;border-radius:99px;border:1px solid transparent;
+  transition:transform .4s var(--curva),box-shadow .4s,border-color .35s,background .35s,color .35s;
+  display:inline-block;
+}
+.btn-oro{background:var(--oro);color:var(--noche)}
+.btn-oro::after{
+  content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-20deg);transition:left .7s var(--curva);
+}
+.btn-oro:hover{transform:translateY(-3px);box-shadow:0 18px 40px -14px rgba(212,180,138,.45)}
+.btn-oro:hover::after{left:130%}
+.btn-linea{border-color:rgba(245,242,234,.32);color:var(--crema);background:transparent}
+.btn-linea:hover{border-color:var(--oro);color:var(--oro-claro);transform:translateY(-3px)}
+.hero-scroll{
+  position:absolute;bottom:2.4rem;right:clamp(1.4rem,4vw,3.5rem);
+  display:flex;flex-direction:column;align-items:center;gap:.9rem;
+  font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(245,242,234,.45);
+  writing-mode:vertical-rl;
+}
+.hero-scroll i{writing-mode:horizontal-tb}
+@media (max-width:760px){.hero-scroll{display:none}}
+.hero-scroll i{
+  width:1px;height:58px;background:var(--linea-crema);position:relative;overflow:hidden;display:block;
+}
+.hero-scroll i::after{
+  content:'';position:absolute;top:-30%;left:0;width:100%;height:30%;
+  background:var(--oro);animation:gota 2.2s var(--curva) infinite;
+}
+@keyframes gota{0%{top:-30%}60%,100%{top:110%}}
+
+/* ---------- Manifiesto ---------- */
+.manifiesto{
+  position:relative;z-index:2;
+  padding:22vh clamp(1.4rem,6vw,4rem);
+  display:flex;justify-content:center;
+}
+.manifiesto p{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(1.7rem,4.6vw,3.4rem);
+  line-height:1.35;max-width:26ch;text-align:center;
+}
+.manifiesto .mw{opacity:.13;display:inline-block;transition:none}
+.manifiesto .mw.oro{color:var(--oro-claro);font-style:italic}
+
+/* ---------- Hoja clara (servicios) ---------- */
+.hoja{
+  position:relative;z-index:3;
+  background:var(--crema);color:var(--tinta);
+  border-radius:34px 34px 0 0;
+  box-shadow:0 -40px 90px -30px rgba(0,0,0,.55);
+}
+.seccion{padding:clamp(5rem,11vw,9rem) clamp(1.4rem,6vw,4.5rem)}
+.cabecera{max-width:1200px;margin:0 auto 4rem}
+.eyebrow{
+  font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;font-weight:600;
+  color:#9a7c50;display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;
+}
+.eyebrow::before{content:'';width:38px;height:1px;background:#c9a878}
+.cabecera h2{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(2.1rem,4.6vw,3.6rem);line-height:1.12;max-width:16ch;
+}
+.cabecera h2 em{font-style:italic;color:#9a7c50}
+
+/* Indice de servicios expandible */
+.indice{max-width:1200px;margin:0 auto;border-top:1px solid rgba(23,35,59,.14)}
+.fila{
+  border-bottom:1px solid rgba(23,35,59,.14);
+  transition:background .45s var(--curva);
+  position:relative;overflow:hidden;
+}
+.fila::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--oro);transform:scaleY(0);transform-origin:top;
+  transition:transform .5s var(--curva);
+}
+.fila:hover{background:rgba(212,180,138,.09)}
+.fila:hover::before{transform:scaleY(1)}
+.fila-cab{
+  display:flex;align-items:baseline;justify-content:space-between;gap:2rem;
+  padding:2.6rem clamp(.6rem,2vw,2rem);cursor:pointer;
+}
+.fila-num{
+  font-size:.72rem;letter-spacing:.3em;color:#9a7c50;font-weight:600;
+  min-width:3.4rem;
+}
+.fila-titulo{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(1.9rem,4.6vw,3.4rem);line-height:1;flex:1;
+  transition:transform .5s var(--curva),color .4s;
+}
+.fila:hover .fila-titulo{transform:translateX(14px);color:#0f1a30}
+.fila-flecha{
+  font-family:var(--serif);font-size:1.9rem;color:#9a7c50;
+  transition:transform .5s var(--curva);
+}
+.fila:hover .fila-flecha{transform:translate(8px,-8px) rotate(45deg)}
+.fila-cuerpo{
+  max-height:0;overflow:hidden;
+  transition:max-height .7s var(--curva);
+}
+.fila.abierta .fila-cuerpo{max-height:260px}
+.fila-inner{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;
+  padding:0 clamp(.6rem,2vw,2rem) 2.6rem calc(clamp(.6rem,2vw,2rem) + 3.4rem);
+}
+.fila-desc{max-width:52ch;font-size:.95rem;font-weight:400;color:rgba(23,35,59,.72);line-height:1.85}
+.fila-cta{
+  white-space:nowrap;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  color:var(--tinta);display:inline-flex;align-items:center;gap:.7rem;
+  padding-bottom:.35rem;border-bottom:1px solid #c9a878;
+  transition:color .3s,gap .35s var(--curva);
+}
+.fila-cta:hover{color:#9a7c50;gap:1.1rem}
+
+/* ---------- Por que Vercelli ---------- */
+.porque{
+  position:relative;z-index:3;background:var(--marino);color:var(--crema);overflow:hidden;
+}
+.porque::before{
+  content:'';position:absolute;width:60vw;height:60vw;right:-22vw;top:-28vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,180,138,.13) 0%,transparent 65%);
+  pointer-events:none;
+}
+.porque .eyebrow{color:var(--oro)}
+.porque .eyebrow::before{background:var(--linea-oro)}
+.porque .cabecera h2 em{color:var(--oro-claro)}
+.pilares{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-left:1px solid var(--linea-crema);
+}
+.pilar{
+  padding:2.6rem 2rem 2.8rem;border-right:1px solid var(--linea-crema);
+  position:relative;transition:background .5s;
+}
+.pilar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:var(--oro);transform:scaleX(0);transform-origin:left;
+  transition:transform .8s var(--curva);
+}
+.pilar:hover{background:rgba(212,180,138,.06)}
+.pilar.visto::before{transform:scaleX(1)}
+.pilar-rom{
+  font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--oro);
+  margin-bottom:2.6rem;display:block;
+}
+.pilar h3{
+  font-family:var(--serif);font-weight:500;font-size:1.55rem;margin-bottom:.9rem;
+}
+.pilar p{font-size:.86rem;font-weight:300;color:rgba(245,242,234,.62);line-height:1.85}
+
+/* ---------- CTA final ---------- */
+.cta{
+  position:relative;z-index:3;background:var(--noche-2);text-align:center;overflow:hidden;
+}
+.cta::before{
+  content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:80vw;height:80vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,180,138,.10) 0%,transparent 60%);
+  pointer-events:none;
+}
+.cta h2{
+  font-family:var(--serif);font-weight:500;
+  font-size:clamp(2.3rem,6vw,4.6rem);line-height:1.12;
+  max-width:17ch;margin:0 auto 1.6rem;position:relative;
+}
+.cta h2 em{font-style:italic;color:var(--oro-claro)}
+.cta p{color:rgba(245,242,234,.6);font-weight:300;max-width:44ch;margin:0 auto 2.8rem;position:relative}
+.cta .btn{position:relative}
+
+/* ---------- Pie ---------- */
+.pie{
+  position:relative;z-index:3;background:#081020;
+  padding:4.5rem clamp(1.4rem,6vw,4.5rem) 2.4rem;
+  border-top:1px solid var(--linea-crema);
+}
+.pie-grid{
+  max-width:1200px;margin:0 auto 3.4rem;
+  display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;
+}
+.pie-marca{
+  font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:.3em;text-indent:.3em;
+  margin-bottom:1rem;
+}
+.pie-tag{font-size:.85rem;font-weight:300;color:rgba(245,242,234,.5);max-width:34ch;line-height:1.8}
+.pie h4{
+  font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--oro);
+  font-weight:600;margin-bottom:1.3rem;
+}
+.pie ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.pie ul a{
+  font-size:.88rem;font-weight:300;color:rgba(245,242,234,.62);transition:color .3s,padding-left .3s;
+}
+.pie ul a:hover{color:var(--oro-claro);padding-left:6px}
+.pie-base{
+  max-width:1200px;margin:0 auto;padding-top:2rem;
+  border-top:1px solid var(--linea-crema);
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.72rem;letter-spacing:.12em;color:rgba(245,242,234,.38);
+}
+
+/* ---------- Revelado generico ---------- */
+[data-reveal]{opacity:0;transform:translateY(44px)}
+.sin-motion [data-reveal]{opacity:1;transform:none}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:960px){
+  .pilares{grid-template-columns:1fr 1fr}
+  .pilar{border-bottom:1px solid var(--linea-crema)}
+  .pie-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .nav-links{display:none}
+  .burger{display:flex;align-items:center;justify-content:center}
+  .nav{padding:1rem 1.2rem}
+  .nav-sesion{display:none}
+  .fila-inner{flex-direction:column;align-items:flex-start;padding-left:clamp(.6rem,2vw,2rem)}
+  .fila.abierta .fila-cuerpo{max-height:340px}
+  .hero-acciones{flex-direction:column;width:100%;max-width:340px}
+  .btn{text-align:center}
+}
+@media (max-width:560px){
+  .pilares{grid-template-columns:1fr}
+  .pie-grid{grid-template-columns:1fr}
+  .hero-sobre::before,.hero-sobre::after{width:22px}
+}
+
+/* ---------- Motion reducido ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .grain{display:none}
+}
+</style>
+</head>
+<body class="lock">
+
+<!-- Cargador -->
+<div class="cargador" id="cargador">
+  <div class="cargador-marca" id="cargadorMarca"></div>
+  <div class="cargador-linea"><i id="cargadorBarra"></i></div>
+  <div class="cargador-cifra" id="cargadorCifra">0%</div>
+</div>
+
+<!-- Atmosfera -->
+<div class="halo halo-a"></div>
+<div class="halo halo-b"></div>
+<div id="escena"></div>
+<div class="grain"></div>
+
+<!-- Cursor -->
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+
+<!-- Navegacion -->
+<header class="nav" id="nav">
+  <a href="#inicio" class="nav-marca" aria-label="Vercelli inicio" data-hover><span class="nav-punto"></span></a>
+  <nav class="nav-links">
+    <a class="nav-link" href="#inicio" data-hover>Inicio</a>
+    <a class="nav-link" href="catalogo.html" data-hover>Inmobiliaria</a>
+    <a class="nav-link" href="paginas-web.html" data-hover>Paginas Web</a>
+    <a class="nav-link" href="marketing.html" data-hover>Marketing</a>
+    <a class="nav-link" href="nosotros.html" data-hover>Nosotros</a>
+  </nav>
+  <a class="nav-sesion" href="auth.html" data-hover>Iniciar sesion</a>
+  <button class="burger" id="burger" aria-label="Abrir menu"><i></i><i></i></button>
+</header>
+
+<div class="menu-movil" id="menuMovil">
+  <a href="#inicio">Inicio</a>
+  <a href="catalogo.html">Inmobiliaria</a>
+  <a href="paginas-web.html">Paginas Web</a>
+  <a href="marketing.html">Marketing</a>
+  <a href="nosotros.html">Nosotros</a>
+  <a href="auth.html">Iniciar sesion</a>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-sobre" data-intro>Bienes raices · Web · Marketing</div>
+    <canvas class="hero-marca-canvas" id="marcaCanvas" aria-hidden="true"></canvas>
+    <h1 class="hero-marca-fallback" id="marcaFallback">VERCELLI</h1>
+    <h2 class="hero-titulo" id="heroTitulo">Tu socio en <em>bienes raices</em>, presencia digital y marketing.</h2>
+    <p class="hero-sub" data-intro>Combinamos tecnologia, diseño y estrategia para hacer crecer tu negocio con la precision de una casa de lujo.</p>
+    <div class="hero-acciones" data-intro>
+      <a class="btn btn-oro" href="#servicios" data-hover>Conoce nuestros servicios</a>
+      <a class="btn btn-linea" href="https://wa.me/59162222274" target="_blank" rel="noopener" data-hover>Contactanos</a>
+    </div>
+    <div class="hero-scroll" data-intro><span>Desliza</span><i></i></div>
+  </section>
+
+  <!-- MANIFIESTO -->
+  <section class="manifiesto">
+    <p id="manifiestoTexto">No vendemos casas ni entregamos sitios web. Construimos patrimonio, presencia y crecimiento que permanecen.</p>
+  </section>
+
+  <!-- SERVICIOS -->
+  <div class="hoja">
+    <section class="seccion" id="servicios">
+      <div class="cabecera">
+        <div class="eyebrow" data-reveal>Nuestros servicios</div>
+        <h2 data-reveal>Tres disciplinas, <em>una sola obsesion:</em> tu crecimiento.</h2>
+      </div>
+      <div class="indice">
+        <article class="fila" data-reveal>
+          <div class="fila-cab" data-hover>
+            <span class="fila-num">Inm</span>
+            <h3 class="fila-titulo">Inmobiliaria</h3>
+            <span class="fila-flecha">&#8594;</span>
+          </div>
+          <div class="fila-cuerpo">
+            <div class="fila-inner">
+              <p class="fila-desc">Compra, venta y alquiler de propiedades seleccionadas. Cada inmueble se presenta con fotografia cuidada, especificaciones completas y tecnologia que hace simple decidir.</p>
+              <a class="fila-cta" href="catalogo.html" data-hover>Ver propiedades <span>&#8594;</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="fila" data-reveal>
+          <div class="fila-cab" data-hover>
+            <span class="fila-num">Web</span>
+            <h3 class="fila-titulo">Paginas Web</h3>
+            <span class="fila-flecha">&#8594;</span>
+          </div>
+          <div class="fila-cuerpo">
+            <div class="fila-inner">
+              <p class="fila-desc">Diseñamos y construimos tu sitio profesional, lo mantenemos en marcha y cada mes recibes estadisticas y leads claros para que tu negocio no deje de crecer.</p>
+              <a class="fila-cta" href="paginas-web.html" data-hover>Conocer el servicio <span>&#8594;</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="fila" data-reveal>
+          <div class="fila-cab" data-hover>
+            <span class="fila-num">Mkt</span>
+            <h3 class="fila-titulo">Marketing</h3>
+            <span class="fila-flecha">&#8594;</span>
+          </div>
+          <div class="fila-cuerpo">
+            <div class="fila-inner">
+              <p class="fila-desc">Estrategias digitales para restaurantes y negocios que quieren destacar: contenido, campañas y medicion enfocados en llenar mesas y cerrar ventas.</p>
+              <a class="fila-cta" href="marketing.html" data-hover>Conocer el servicio <span>&#8594;</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <!-- POR QUE VERCELLI -->
+  <section class="porque">
+    <div class="seccion">
+      <div class="cabecera">
+        <div class="eyebrow" data-reveal>Por que Vercelli</div>
+        <h2 data-reveal>Lo que hacemos bien, <em>lo hacemos siempre.</em></h2>
+      </div>
+      <div class="pilares">
+        <div class="pilar" data-reveal>
+          <span class="pilar-rom">I</span>
+          <h3>Experiencia</h3>
+          <p>Conocemos el mercado local y sus reglas. Cada proyecto se maneja con criterio, no con plantillas.</p>
+        </div>
+        <div class="pilar" data-reveal>
+          <span class="pilar-rom">II</span>
+          <h3>Tecnologia</h3>
+          <p>Plataformas propias, datos en tiempo real y herramientas de IA aplicadas donde de verdad suman.</p>
+        </div>
+        <div class="pilar" data-reveal>
+          <span class="pilar-rom">III</span>
+          <h3>Resultados</h3>
+          <p>Medimos todo: visitas, leads, ventas. Si no se puede medir, no lo prometemos.</p>
+        </div>
+        <div class="pilar" data-reveal>
+          <span class="pilar-rom">IV</span>
+          <h3>Soporte continuo</h3>
+          <p>No desaparecemos despues de entregar. Acompañamos, mantenemos y mejoramos cada mes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contacto">
+    <div class="seccion">
+      <h2 data-reveal>Comencemos algo <em>extraordinario.</em></h2>
+      <p data-reveal>Cuentanos que necesitas y te respondemos con una propuesta clara, sin vueltas.</p>
+      <a class="btn btn-oro" href="https://wa.me/59162222274" target="_blank" rel="noopener" data-reveal data-hover>Escríbenos por WhatsApp</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- PIE -->
+<footer class="pie">
+  <div class="pie-grid">
+    <div>
+      <div class="pie-marca">VERCELLI</div>
+      <p class="pie-tag">Tu socio en bienes raices, presencia digital y marketing. La Paz, Bolivia.</p>
+    </div>
+    <div>
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="catalogo.html" data-hover>Inmobiliaria</a></li>
+        <li><a href="paginas-web.html" data-hover>Paginas Web</a></li>
+        <li><a href="marketing.html" data-hover>Marketing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="nosotros.html" data-hover>Nosotros</a></li>
+        <li><a href="https://wa.me/59162222274" target="_blank" rel="noopener" data-hover>WhatsApp</a></li>
+        <li><a href="auth.html" data-hover>Iniciar sesion</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie-base">
+    <span>&copy; 2026 Vercelli. Todos los derechos reservados.</span>
+    <span>La Paz — Bolivia</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var finePointer = window.matchMedia('(pointer: fine)').matches;
+var movil = window.innerWidth < 768;
+
+/* ---------- Utilidades ---------- */
+function lerp(a,b,n){ return a + (b-a)*n; }
+
+function dividirPalabras(el){
+  var frag = document.createDocumentFragment();
+  function procesar(nodo, italica){
+    if(nodo.nodeType === 3){
+      var partes = nodo.textContent.split(/(\s+)/);
+      for(var i=0;i<partes.length;i++){
+        var p = partes[i];
+        if(!p) continue;
+        if(/^\s+$/.test(p)){ frag.appendChild(document.createTextNode(' ')); continue; }
+        var w = document.createElement('span'); w.className = 'w';
+        var wi = document.createElement('span'); wi.className = 'wi';
+        wi.textContent = p;
+        if(italica){ wi.style.fontStyle = 'italic'; wi.style.color = 'var(--oro-claro)'; }
+        w.appendChild(wi); frag.appendChild(w);
+      }
+    } else if(nodo.nodeType === 1){
+      var esEm = nodo.tagName === 'EM';
+      var hijos = Array.prototype.slice.call(nodo.childNodes);
+      for(var j=0;j<hijos.length;j++) procesar(hijos[j], esEm || italica);
+    }
+  }
+  var nodos = Array.prototype.slice.call(el.childNodes);
+  for(var k=0;k<nodos.length;k++) procesar(nodos[k], false);
+  el.innerHTML = '';
+  el.appendChild(frag);
+  return el.querySelectorAll('.wi');
+}
+
+/* ---------- Letras del cargador ---------- */
+var marca = document.getElementById('cargadorMarca');
+'VERCELLI'.split('').forEach(function(l){
+  var s = document.createElement('span'); s.textContent = l; marca.appendChild(s);
+});
+
+/* ---------- Menu movil ---------- */
+var burger = document.getElementById('burger');
+var menuMovil = document.getElementById('menuMovil');
+function cerrarMenu(){
+  burger.classList.remove('abierto');
+  menuMovil.classList.remove('abierto');
+  document.body.classList.remove('lock');
+}
+burger.addEventListener('click', function(){
+  var abierto = menuMovil.classList.toggle('abierto');
+  burger.classList.toggle('abierto', abierto);
+  document.body.classList.toggle('lock', abierto);
+});
+menuMovil.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', cerrarMenu); });
+
+/* ---------- Nav solida al hacer scroll ---------- */
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function(){
+  nav.classList.toggle('solida', window.scrollY > 60);
+}, {passive:true});
+
+/* ---------- Filas de servicios ---------- */
+document.querySelectorAll('.fila').forEach(function(f){
+  var cab = f.querySelector('.fila-cab');
+  cab.addEventListener('click', function(){ f.classList.toggle('abierta'); });
+  if(finePointer){
+    f.addEventListener('mouseenter', function(){ f.classList.add('abierta'); });
+    f.addEventListener('mouseleave', function(){ f.classList.remove('abierta'); });
+  }
+});
+
+/* ---------- Cursor personalizado ---------- */
+if(finePointer && !reduced){
+  document.documentElement.classList.add('cursor-oculto');
+  var dot = document.getElementById('cDot');
+  var ring = document.getElementById('cRing');
+  var mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+  document.addEventListener('pointermove', function(e){ mx = e.clientX; my = e.clientY; }, {passive:true});
+  (function moverCursor(){
+    rx = lerp(rx, mx, .16); ry = lerp(ry, my, .16);
+    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px) translate(-50%,-50%)';
+    ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
+    requestAnimationFrame(moverCursor);
+  })();
+  document.addEventListener('mouseover', function(e){
+    if(e.target.closest('[data-hover], a, button')) ring.classList.add('activo');
+  });
+  document.addEventListener('mouseout', function(e){
+    if(e.target.closest('[data-hover], a, button')) ring.classList.remove('activo');
+  });
+} else {
+  document.getElementById('cDot').style.display = 'none';
+  document.getElementById('cRing').style.display = 'none';
+}
+
+/* ---------- Arranque principal ---------- */
+window.addEventListener('load', function(){
+
+  var cargador = document.getElementById('cargador');
+
+  /* Sin GSAP o con motion reducido: mostrar todo directo */
+  if(!window.gsap || reduced){
+    document.documentElement.classList.add('sin-motion');
+    cargador.style.display = 'none';
+    document.body.classList.remove('lock');
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Lenis: scroll suave */
+  var lenis = null;
+  if(window.Lenis){
+    lenis = new Lenis({ duration: 1.25, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* Anclas suaves */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      if(id.length > 1){
+        var destino = document.querySelector(id);
+        if(destino){
+          e.preventDefault();
+          cerrarMenu();
+          if(lenis) lenis.scrollTo(destino, {duration: 1.5});
+          else destino.scrollIntoView({behavior:'smooth'});
+        }
+      }
+    });
+  });
+
+  /* Titulo secundario del hero dividido en palabras */
+  var titulo = document.getElementById('heroTitulo');
+  var palabras = dividirPalabras(titulo);
+  gsap.set(palabras, {yPercent: 115});
+
+  /* Deteccion de WebGL: si falla, mostrar la marca en texto */
+  (function(){
+    try{
+      var c = document.createElement('canvas');
+      var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+      if(!gl) document.documentElement.classList.add('no-webgl');
+    }catch(e){ document.documentElement.classList.add('no-webgl'); }
+  })();
+
+  /* Manifiesto dividido */
+  var manifiesto = document.getElementById('manifiestoTexto');
+  var oroLista = ['patrimonio','presencia','crecimiento'];
+  var mPalabras = dividirPalabras(manifiesto);
+  mPalabras.forEach(function(w){
+    w.parentNode.classList.add('mw-wrap');
+    w.classList.add('mw');
+    var limpio = w.textContent.toLowerCase().replace(/[.,]/g,'');
+    if(oroLista.indexOf(limpio) !== -1) w.classList.add('oro');
+  });
+
+  /* Intro del hero (pausada hasta que termine el cargador) */
+  var intro = gsap.timeline({paused:true});
+  intro.from('#nav', {y:-24, opacity:0, duration:.9, ease:'power3.out'})
+    .to(palabras, {yPercent:0, duration:1.15, stagger:.05, ease:'power4.out'}, .1)
+    .add(function(){ titulo.classList.add('brillo'); }, 1.05)
+    .from('[data-intro]', {y:26, opacity:0, duration:1, stagger:.12, ease:'power3.out'}, .75);
+
+  /* Secuencia del cargador */
+  var progreso = {v:0};
+  var barra = document.getElementById('cargadorBarra');
+  var cifra = document.getElementById('cargadorCifra');
+  var tl = gsap.timeline();
+  tl.to('#cargadorMarca span', {y:'0%', duration:.85, stagger:.055, ease:'power3.out'})
+    .to(progreso, {v:100, duration:1.5, ease:'power2.inOut',
+      onUpdate:function(){
+        var v = Math.round(progreso.v);
+        cifra.textContent = v + '%';
+        barra.style.transform = 'scaleX(' + (v/100) + ')';
+      }}, .3)
+    .to(cargador, {yPercent:-100, duration:1.05, ease:'power4.inOut', delay:.2,
+      onStart:function(){ intro.play(); },
+      onComplete:function(){
+        cargador.style.display = 'none';
+        document.body.classList.remove('lock');
+      }});
+
+  /* Revelados al hacer scroll */
+  gsap.utils.toArray('[data-reveal]').forEach(function(el){
+    gsap.to(el, {opacity:1, y:0, duration:1.15, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 88%'}});
+  });
+
+  /* Manifiesto: barrido palabra por palabra */
+  gsap.to('.mw', {opacity:1, stagger:.06, ease:'none',
+    scrollTrigger:{trigger:'.manifiesto', start:'top 75%', end:'center 42%', scrub:.5}});
+
+  /* Pilares: linea dorada al entrar */
+  gsap.utils.toArray('.pilar').forEach(function(p, i){
+    ScrollTrigger.create({trigger:p, start:'top 85%',
+      onEnter:function(){ setTimeout(function(){ p.classList.add('visto'); }, i*140); }});
+  });
+
+  /* La escena 3D se desvanece al llegar a la hoja clara */
+  gsap.to(['#escena','.halo-a','.halo-b'], {opacity:0, ease:'none',
+    scrollTrigger:{trigger:'.hoja', start:'top 92%', end:'top 30%', scrub:true}});
+
+  /* Progreso de scroll para la camara */
+  window.__scrollP = 0;
+  ScrollTrigger.create({trigger:'#inicio', start:'top top', end:'+=160%', scrub:true,
+    onUpdate:function(s){ window.__scrollP = s.progress; }});
+
+  iniciarEscena();
+  iniciarMarca();
+});
+
+/* ---------- Marca VERCELLI en particulas doradas (Canvas 2D) ---------- */
+function iniciarMarca(){
+  var canvas = document.getElementById('marcaCanvas');
+  var fallback = document.getElementById('marcaFallback');
+  if(!canvas || reduced){ if(fallback) fallback.style.opacity = '1'; return; }
+  var ctx = canvas.getContext('2d');
+  if(!ctx){ fallback.style.opacity = '1'; return; }
+
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var particulas = [];
+  var mouse = {x:-9999, y:-9999};
+  var listo = false;
+
+  function medir(){
+    var r = canvas.getBoundingClientRect();
+    canvas.width = r.width * dpr;
+    canvas.height = r.height * dpr;
+    construir(r.width, r.height);
+  }
+
+  function construir(w, h){
+    /* Dibujar el texto en un lienzo temporal y muestrear sus pixeles */
+    var tmp = document.createElement('canvas');
+    tmp.width = w; tmp.height = h;
+    var tctx = tmp.getContext('2d');
+    var tam = Math.min(w * 0.19, h * 0.9);
+    tctx.font = '600 ' + tam + "px 'Cormorant Garamond', Georgia, serif";
+    var anchoPrueba = 0;
+    for(var ip=0; ip<8; ip++){ anchoPrueba += tctx.measureText('VERCELLI'[ip]).width + tam*0.06; }
+    if(anchoPrueba > w * 0.92){ tam = tam * (w * 0.92 / anchoPrueba); }
+    tctx.fillStyle = '#fff';
+    tctx.textAlign = 'center';
+    tctx.textBaseline = 'middle';
+    tctx.font = '600 ' + tam + "px 'Cormorant Garamond', Georgia, serif";
+    /* Espaciado entre letras manual para elegancia */
+    var texto = 'VERCELLI';
+    var esp = tam * 0.06;
+    var anchoTotal = 0;
+    var anchos = [];
+    for(var i=0;i<texto.length;i++){ var a = tctx.measureText(texto[i]).width; anchos.push(a); anchoTotal += a + esp; }
+    anchoTotal -= esp;
+    var x = (w - anchoTotal)/2;
+    for(var j=0;j<texto.length;j++){
+      tctx.fillText(texto[j], x + anchos[j]/2, h/2);
+      x += anchos[j] + esp;
+    }
+
+    var datos = tctx.getImageData(0,0,w,h).data;
+    var paso = w < 640 ? 5 : 4;
+    var nuevos = [];
+    for(var py=0; py<h; py+=paso){
+      for(var px=0; px<w; px+=paso){
+        var idx = (py*w + px)*4;
+        if(datos[idx+3] > 128){
+          nuevos.push({
+            hx:px, hy:py,
+            x: w/2 + (Math.random()-.5)*w,
+            y: h/2 + (Math.random()-.5)*h*1.5,
+            vx:0, vy:0,
+            r: Math.random()*1.3 + 0.6,
+            tono: Math.random(),
+            fase: Math.random()*Math.PI*2
+          });
+        }
+      }
+    }
+    particulas = nuevos;
+    listo = true;
+  }
+
+  window.addEventListener('resize', medir);
+  document.addEventListener('pointermove', function(e){
+    var r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  }, {passive:true});
+  document.addEventListener('pointerleave', function(){ mouse.x = -9999; mouse.y = -9999; });
+
+  var t0 = performance.now();
+  function animar(now){
+    requestAnimationFrame(animar);
+    if(!listo || document.hidden) return;
+    var t = (now - t0)/1000;
+    var w = canvas.width/dpr, h = canvas.height/dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,w,h);
+
+    for(var i=0;i<particulas.length;i++){
+      var p = particulas[i];
+      /* objetivo con leve flotacion */
+      var ox = p.hx + Math.sin(t*0.7 + p.fase)*1.4;
+      var oy = p.hy + Math.cos(t*0.6 + p.fase)*1.4;
+      /* resorte hacia el objetivo */
+      p.vx += (ox - p.x)*0.045;
+      p.vy += (oy - p.y)*0.045;
+      /* repulsion del mouse */
+      var dx = p.x - mouse.x, dy = p.y - mouse.y;
+      var d2 = dx*dx + dy*dy;
+      if(d2 < 8000){
+        var d = Math.sqrt(d2) || 1;
+        var f = (90 - d)/90 * 5;
+        p.vx += (dx/d)*f;
+        p.vy += (dy/d)*f;
+      }
+      p.vx *= 0.82; p.vy *= 0.82;
+      p.x += p.vx; p.y += p.vy;
+
+      var brillo = 0.55 + Math.sin(t*1.6 + p.fase)*0.28;
+      /* mezcla de dorado a crema segun tono */
+      var col = p.tono > 0.72
+        ? 'rgba(233,213,179,' + brillo.toFixed(2) + ')'
+        : 'rgba(212,180,138,' + brillo.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = col;
+      ctx.fill();
+    }
+  }
+
+  /* Asegurar que la fuente este cargada antes de muestrear */
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ medir(); requestAnimationFrame(animar); });
+  } else {
+    setTimeout(function(){ medir(); requestAnimationFrame(animar); }, 300);
+  }
+}
+
+/* ---------- Escena Three.js: la ciudad dorada ---------- */
+function iniciarEscena(){
+  if(!window.THREE || reduced) return;
+  try{
+    var cont = document.getElementById('escena');
+    var renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    cont.appendChild(renderer.domElement);
+
+    var escena = new THREE.Scene();
+    escena.fog = new THREE.FogExp2(0x0A1428, 0.05);
+
+    var camara = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, .1, 200);
+    camara.position.set(0, 2.4, 15);
+
+    /* Polvo dorado */
+    var nPolvo = movil ? 500 : 1400;
+    var posPolvo = new Float32Array(nPolvo * 3);
+    for(var i=0;i<nPolvo;i++){
+      posPolvo[i*3]   = (Math.random()-.5) * 48;
+      posPolvo[i*3+1] = Math.random() * 16 - 4;
+      posPolvo[i*3+2] = (Math.random()-.5) * 26 - 4;
+    }
+    var geoPolvo = new THREE.BufferGeometry();
+    geoPolvo.setAttribute('position', new THREE.BufferAttribute(posPolvo, 3));
+    var polvo = new THREE.Points(geoPolvo, new THREE.PointsMaterial({
+      color:0xD4B48A, size:.07, transparent:true, opacity:.55,
+      blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true
+    }));
+    escena.add(polvo);
+
+    /* Oceano de puntos: la marea dorada */
+    var segX = movil ? 56 : 110, segY = movil ? 24 : 48;
+    var geoMar = new THREE.PlaneGeometry(120, 55, segX, segY);
+    var mar = new THREE.Points(geoMar, new THREE.PointsMaterial({
+      color:0xC9A878, size:.06, transparent:true, opacity:.32,
+      blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true
+    }));
+    mar.rotation.x = -Math.PI/2;
+    mar.position.set(0, -6.5, -8);
+    escena.add(mar);
+    var posMar = geoMar.attributes.position;
+
+    /* Torres arquitectonicas de alambre */
+    function torre(pisos, base, x, z, op){
+      var g = new THREE.Group();
+      var mat = new THREE.LineBasicMaterial({color:0xD4B48A, transparent:true, opacity:op});
+      for(var f=0; f<pisos; f++){
+        var lado = base * (1 - (f/pisos)*.55);
+        var caja = new THREE.BoxGeometry(lado, .72, lado);
+        var linea = new THREE.LineSegments(new THREE.EdgesGeometry(caja), mat);
+        linea.position.y = f * .86;
+        g.add(linea);
+      }
+      g.position.set(x, -3.4, z);
+      escena.add(g);
+      return g;
+    }
+    var t1 = torre(13, 3.2,  8.6, -5,  .26);
+    var t2 = torre(9,  2.5, -9.8, -9,  .15);
+    var t3 = torre(16, 2.2, 15.5, -15, .10);
+
+    /* Constelacion */
+    var nC = movil ? 40 : 70;
+    var posC = new Float32Array(nC*3);
+    var velC = new Float32Array(nC*3);
+    for(var c=0;c<nC;c++){
+      posC[c*3]   = (Math.random()-.5)*26;
+      posC[c*3+1] = 2 + Math.random()*7;
+      posC[c*3+2] = -2 - Math.random()*8;
+      velC[c*3]   = (Math.random()-.5)*.008;
+      velC[c*3+1] = (Math.random()-.5)*.005;
+      velC[c*3+2] = (Math.random()-.5)*.006;
+    }
+    var geoC = new THREE.BufferGeometry();
+    geoC.setAttribute('position', new THREE.BufferAttribute(posC, 3));
+    var puntosC = new THREE.Points(geoC, new THREE.PointsMaterial({
+      color:0xE9D5B3, size:.09, transparent:true, opacity:.6,
+      blending:THREE.AdditiveBlending, depthWrite:false
+    }));
+    escena.add(puntosC);
+
+    var maxSeg = 300;
+    var posLineas = new Float32Array(maxSeg * 6);
+    var geoLineas = new THREE.BufferGeometry();
+    geoLineas.setAttribute('position', new THREE.BufferAttribute(posLineas, 3));
+    var lineas = new THREE.LineSegments(geoLineas, new THREE.LineBasicMaterial({
+      color:0xD4B48A, transparent:true, opacity:.13
+    }));
+    escena.add(lineas);
+
+    /* Interaccion */
+    var mX = 0, mY = 0;
+    document.addEventListener('pointermove', function(e){
+      mX = (e.clientX/innerWidth - .5) * 2;
+      mY = (e.clientY/innerHeight - .5) * 2;
+    }, {passive:true});
+
+    var reloj = new THREE.Clock();
+
+    function cuadro(){
+      requestAnimationFrame(cuadro);
+      if(document.hidden) return;
+      var t = reloj.getElapsedTime();
+
+      /* Marea */
+      for(var v=0; v<posMar.count; v++){
+        var x = posMar.getX(v), y = posMar.getY(v);
+        posMar.setZ(v, Math.sin(x*.22 + t*.85)*.75 + Math.cos(y*.27 + t*.55)*.75);
+      }
+      posMar.needsUpdate = true;
+
+      /* Polvo y torres */
+      polvo.rotation.y = t * .015;
+      t1.rotation.y = t * .1;
+      t2.rotation.y = -t * .07;
+      t3.rotation.y = t * .05;
+
+      /* Constelacion viva */
+      for(var c2=0; c2<nC; c2++){
+        for(var e2=0; e2<3; e2++){
+          posC[c2*3+e2] += velC[c2*3+e2];
+        }
+        if(posC[c2*3]   >  14 || posC[c2*3]   < -14) velC[c2*3]   *= -1;
+        if(posC[c2*3+1] >  10 || posC[c2*3+1] <   1) velC[c2*3+1] *= -1;
+        if(posC[c2*3+2] > -1  || posC[c2*3+2] < -11) velC[c2*3+2] *= -1;
+      }
+      geoC.attributes.position.needsUpdate = true;
+
+      var seg = 0;
+      for(var a=0; a<nC && seg<maxSeg; a++){
+        for(var b=a+1; b<nC && seg<maxSeg; b++){
+          var dx = posC[a*3]-posC[b*3], dy = posC[a*3+1]-posC[b*3+1], dz = posC[a*3+2]-posC[b*3+2];
+          if(dx*dx + dy*dy + dz*dz < 6.8){
+            posLineas[seg*6]   = posC[a*3];   posLineas[seg*6+1] = posC[a*3+1]; posLineas[seg*6+2] = posC[a*3+2];
+            posLineas[seg*6+3] = posC[b*3];   posLineas[seg*6+4] = posC[b*3+1]; posLineas[seg*6+5] = posC[b*3+2];
+            seg++;
+          }
+        }
+      }
+      geoLineas.setDrawRange(0, seg*2);
+      geoLineas.attributes.position.needsUpdate = true;
+
+      /* Camara cinematografica */
+      var p = window.__scrollP || 0;
+      camara.position.x = lerp(camara.position.x, mX * 1.6, .045);
+      camara.position.y = lerp(camara.position.y, 2.4 + p*2.4 - mY*.7, .045);
+      camara.position.z = 15 + p * 5;
+      camara.lookAt(0, 1.2 - p*1.6, 0);
+
+      renderer.render(escena, camara);
+    }
+    cuadro();
+
+    window.addEventListener('resize', function(){
+      camara.aspect = innerWidth/innerHeight;
+      camara.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+  } catch(err){ /* si WebGL falla, los halos CSS sostienen la atmosfera */ }
+}
+
+})();
+</script>
+</body>
+</html>

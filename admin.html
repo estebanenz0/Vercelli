@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin — Vercelli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--noche:#0A1428;--noche-2:#0D1B33;--panel:#0f1e38;--panel-2:#13243f;--marino:#1B2B4B;--oro:#D4B48A;--oro-claro:#E9D5B3;--crema:#F5F2EA;--linea:rgba(245,242,234,.1);--linea-oro:rgba(212,180,138,.3);--verde:#3ddc7f;--rojo:#e06060;--serif:'Cormorant Garamond',serif;--sans:'Manrope',-apple-system,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--noche);color:var(--crema);-webkit-font-smoothing:antialiased;line-height:1.55;font-size:14px}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+::selection{background:var(--oro);color:var(--noche)}
+
+/* Verificando acceso */
+.verificando{position:fixed;inset:0;z-index:500;background:var(--noche);display:flex;align-items:center;justify-content:center;color:rgba(245,242,234,.5);letter-spacing:.12em;font-size:.85rem}
+.sin-acceso{position:fixed;inset:0;z-index:500;background:var(--noche);display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;text-align:center;padding:2rem}
+.sin-acceso h1{font-family:var(--serif);font-size:2.4rem}
+.sin-acceso p{color:rgba(245,242,234,.6);font-weight:300;max-width:40ch}
+.sin-acceso a{background:var(--oro);color:var(--noche);padding:.8rem 1.8rem;border-radius:10px;font-weight:600;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* Topbar */
+.topbar{position:sticky;top:0;z-index:100;background:var(--noche-2);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:1rem 1.6rem}
+.topbar-izq{display:flex;align-items:center;gap:1.4rem}
+.tb-marca{font-family:var(--serif);font-weight:600;font-size:1.2rem;letter-spacing:.3em;text-indent:.3em}
+.tb-tag{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);border:1px solid var(--linea-oro);padding:.25rem .6rem;border-radius:99px}
+.tabs-nav{display:flex;gap:.4rem}
+.tab-nav{background:none;border:none;color:rgba(245,242,234,.6);font-size:.82rem;font-weight:500;padding:.55rem 1.1rem;border-radius:8px;transition:background .25s,color .25s}
+.tab-nav:hover{color:var(--crema);background:rgba(245,242,234,.05)}
+.tab-nav.activo{background:var(--oro);color:var(--noche);font-weight:600}
+.tb-user{display:flex;align-items:center;gap:1rem}
+.tb-email{font-size:.8rem;color:rgba(245,242,234,.6)}
+.btn-salir{background:none;border:1px solid var(--linea);color:rgba(245,242,234,.8);padding:.5rem 1.1rem;border-radius:8px;font-size:.76rem;font-weight:500;transition:border-color .25s,color .25s}
+.btn-salir:hover{border-color:var(--rojo);color:var(--rojo)}
+
+.wrap{max-width:1180px;margin:0 auto;padding:2rem 1.6rem 5rem}
+.vista{display:none}
+.vista.activa{display:block}
+
+/* Panel de propiedades: 2 columnas */
+.grid-admin{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:1.6rem;align-items:start}
+@media (max-width:900px){.grid-admin{grid-template-columns:1fr}}
+
+.card{background:var(--panel);border:1px solid var(--linea);border-radius:14px;padding:1.6rem}
+.card h2{font-size:1rem;font-weight:600;margin-bottom:.3rem;display:flex;align-items:center;gap:.6rem}
+.card h2 .badge{font-size:.6rem;background:var(--oro);color:var(--noche);padding:.15rem .5rem;border-radius:99px;letter-spacing:.06em;font-weight:700}
+.card .sub{font-size:.78rem;color:rgba(245,242,234,.5);margin-bottom:1.4rem}
+
+.campo{margin-bottom:1rem}
+.campo label{display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,234,.55);font-weight:600;margin-bottom:.4rem}
+.campo input,.campo select,.campo textarea{width:100%;background:var(--panel-2);border:1px solid var(--linea);border-radius:9px;padding:.7rem .85rem;color:var(--crema);font-size:.88rem;outline:none;transition:border-color .25s}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--oro)}
+.campo textarea{resize:vertical;min-height:80px}
+.fila{display:grid;gap:.8rem}
+.fila-2{grid-template-columns:1fr 1fr}
+.fila-3{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:520px){.fila-2,.fila-3{grid-template-columns:1fr}}
+.checks{display:flex;gap:1.4rem;flex-wrap:wrap;margin:.4rem 0 1rem}
+.check{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:rgba(245,242,234,.8);cursor:pointer}
+.check input{width:auto}
+
+/* Dropzone fotos */
+.dropzone{border:2px dashed var(--linea-oro);border-radius:12px;padding:1.6rem;text-align:center;color:rgba(245,242,234,.55);font-size:.85rem;cursor:pointer;transition:border-color .25s,background .25s;background:rgba(212,180,138,.03)}
+.dropzone:hover{border-color:var(--oro);background:rgba(212,180,138,.06)}
+.dropzone input{display:none}
+.previews{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
+.preview{position:relative;width:74px;height:74px;border-radius:9px;overflow:hidden;border:1px solid var(--linea)}
+.preview img{width:100%;height:100%;object-fit:cover}
+.preview .quitar{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:rgba(10,20,40,.85);color:var(--crema);border:none;font-size:.9rem;line-height:1;display:flex;align-items:center;justify-content:center}
+.preview.principal::after{content:'Portada';position:absolute;bottom:0;left:0;right:0;background:var(--oro);color:var(--noche);font-size:.55rem;text-align:center;font-weight:700;padding:1px}
+.previews-nota{font-size:.72rem;color:rgba(245,242,234,.45);margin-top:.5rem}
+
+/* Mapa */
+#mapaAdmin{height:240px;border-radius:11px;border:1px solid var(--linea);margin-top:.5rem;z-index:1}
+.mapa-coords{font-size:.74rem;color:rgba(245,242,234,.5);margin-top:.5rem}
+.mapa-buscar{display:flex;gap:.5rem;margin-bottom:.5rem}
+.mapa-buscar input{flex:1}
+.mapa-buscar button{background:var(--marino);border:1px solid var(--linea);color:var(--crema);border-radius:9px;padding:0 1rem;font-size:.78rem;font-weight:500}
+
+.btn-primary{width:100%;background:var(--oro);color:var(--noche);border:none;border-radius:10px;padding:.9rem;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:transform .2s,box-shadow .2s,opacity .2s;margin-top:.5rem}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 24px -10px rgba(212,180,138,.5)}
+.btn-primary:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
+.msg{margin-top:.8rem;padding:.7rem .9rem;border-radius:9px;font-size:.82rem;display:none}
+.msg.ok{display:block;background:rgba(61,220,127,.1);border:1px solid rgba(61,220,127,.3);color:#9fe6bd}
+.msg.error{display:block;background:rgba(224,96,96,.1);border:1px solid rgba(224,96,96,.35);color:#f0a8a8}
+
+/* Lista de propiedades */
+.lista-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.lista-head h2{font-size:1rem;font-weight:600}
+.lista-count{font-size:.76rem;color:rgba(245,242,234,.5)}
+.prop-item{display:flex;gap:1rem;align-items:center;background:var(--panel);border:1px solid var(--linea);border-radius:12px;padding:.8rem;margin-bottom:.7rem;transition:border-color .25s}
+.prop-item:hover{border-color:var(--linea-oro)}
+.prop-thumb{width:76px;height:60px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--panel-2)}
+.prop-thumb-ph{width:76px;height:60px;border-radius:8px;flex-shrink:0;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:rgba(245,242,234,.4);text-align:center}
+.prop-datos{flex:1;min-width:0}
+.prop-datos h3{font-size:.92rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prop-datos .meta{font-size:.76rem;color:rgba(245,242,234,.55);margin-top:.15rem}
+.prop-badges{display:flex;gap:.3rem;margin-top:.35rem;flex-wrap:wrap}
+.mini-badge{font-size:.58rem;padding:.12rem .45rem;border-radius:99px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.mb-venta{background:rgba(212,180,138,.16);color:var(--oro-claro)}
+.mb-alq{background:rgba(120,160,220,.16);color:#9fc0ec}
+.mb-dest{background:rgba(212,180,138,.85);color:var(--noche)}
+.prop-acciones{display:flex;gap:.4rem;flex-shrink:0}
+.btn-mini{border:1px solid var(--linea);background:none;color:rgba(245,242,234,.75);border-radius:7px;padding:.4rem .8rem;font-size:.74rem;font-weight:500;transition:border-color .25s,color .25s}
+.btn-mini:hover{border-color:var(--oro);color:var(--oro)}
+.btn-mini.del:hover{border-color:var(--rojo);color:var(--rojo)}
+.lista-vacia{text-align:center;color:rgba(245,242,234,.45);padding:2.5rem;font-size:.88rem}
+.lista-cargando{text-align:center;color:rgba(245,242,234,.5);padding:2rem;font-size:.85rem}
+
+/* Vistas vacias leads/visitas */
+.placeholder-vista{text-align:center;padding:5rem 2rem;color:rgba(245,242,234,.5)}
+.placeholder-vista .ic{width:64px;height:64px;margin:0 auto 1.4rem;border-radius:16px;background:rgba(212,180,138,.1);border:1px solid var(--linea-oro);display:flex;align-items:center;justify-content:center}
+.placeholder-vista .ic svg{width:30px;height:30px;stroke:var(--oro);fill:none;stroke-width:1.5}
+.placeholder-vista h2{font-family:var(--serif);font-size:1.8rem;margin-bottom:.6rem;color:var(--crema)}
+.placeholder-vista p{font-weight:300;max-width:44ch;margin:0 auto}
+.placeholder-vista .prox{display:inline-block;margin-top:1.2rem;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--oro);border:1px solid var(--linea-oro);padding:.4rem 1rem;border-radius:99px}
+
+/* Modo edicion banner */
+.editando-banner{display:none;background:rgba(212,180,138,.12);border:1px solid var(--linea-oro);border-radius:9px;padding:.6rem .9rem;font-size:.8rem;color:var(--oro-claro);margin-bottom:1rem;align-items:center;justify-content:space-between;gap:1rem}
+.editando-banner.visible{display:flex}
+.editando-banner button{background:none;border:none;color:rgba(245,242,234,.6);font-size:.76rem;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="verificando" id="verificando">Verificando acceso...</div>
+
+<div class="sin-acceso" id="sinAcceso">
+  <h1>Acceso restringido</h1>
+  <p>Esta area es solo para administradores de Vercelli. Inicia sesion con una cuenta autorizada.</p>
+  <a href="auth.html">Ir a iniciar sesion</a>
+</div>
+
+<div id="app" style="display:none">
+  <header class="topbar">
+    <div class="topbar-izq">
+      <span class="tb-marca">VERCELLI</span>
+      <span class="tb-tag">Admin</span>
+      <nav class="tabs-nav">
+        <button class="tab-nav activo" data-vista="propiedades">Propiedades</button>
+        <button class="tab-nav" data-vista="leads">Leads</button>
+        <button class="tab-nav" data-vista="visitas">Visitas</button>
+      </nav>
+    </div>
+    <div class="tb-user">
+      <span class="tb-email" id="tbEmail"></span>
+      <button class="btn-salir" id="btnSalir">Cerrar sesion</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- VISTA PROPIEDADES -->
+    <div class="vista activa" id="vista-propiedades">
+      <div class="grid-admin">
+        <!-- Formulario -->
+        <div class="card">
+          <div class="editando-banner" id="editandoBanner">
+            <span>Editando propiedad existente</span>
+            <button id="cancelarEdicion">Cancelar</button>
+          </div>
+          <h2 id="formTitulo">Nueva propiedad</h2>
+          <p class="sub">Completa los datos y publica.</p>
+
+          <div class="campo">
+            <label>Titulo</label>
+            <input type="text" id="f_titulo" placeholder="Ej: Casa moderna con jardin">
+          </div>
+          <div class="campo">
+            <label>Descripcion</label>
+            <textarea id="f_descripcion" placeholder="Describe la propiedad..."></textarea>
+          </div>
+
+          <div class="campo">
+            <label>Fotos de la propiedad</label>
+            <label class="dropzone" for="f_fotos">
+              Toca para seleccionar fotos. La primera sera la portada.
+              <input type="file" id="f_fotos" accept="image/*" multiple>
+            </label>
+            <div class="previews" id="previews"></div>
+            <div class="previews-nota" id="previewsNota"></div>
+          </div>
+
+          <div class="fila fila-3">
+            <div class="campo"><label>Tipo</label><select id="f_tipo"><option value="casa">Casa</option><option value="apartamento">Apartamento</option><option value="terreno">Terreno</option><option value="local">Local</option></select></div>
+            <div class="campo"><label>Operacion</label><select id="f_operacion"><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select></div>
+            <div class="campo"><label>Estado</label><select id="f_estado"><option value="activa">Activa</option><option value="pausada">Pausada</option><option value="vendida">Vendida</option><option value="alquilada">Alquilada</option></select></div>
+          </div>
+          <div class="fila fila-2">
+            <div class="campo"><label>Precio</label><input type="number" id="f_precio" placeholder="0"></div>
+            <div class="campo"><label>Moneda</label><select id="f_moneda"><option value="USD">USD</option><option value="BOB">BOB</option></select></div>
+          </div>
+          <div class="fila fila-3">
+            <div class="campo"><label>M² construidos</label><input type="number" id="f_m2c" placeholder="0"></div>
+            <div class="campo"><label>M² terreno</label><input type="number" id="f_m2t" placeholder="0"></div>
+            <div class="campo"><label>Año</label><input type="number" id="f_ano" placeholder="2020"></div>
+          </div>
+          <div class="fila fila-3">
+            <div class="campo"><label>Dormitorios</label><input type="number" id="f_hab" placeholder="0"></div>
+            <div class="campo"><label>Baños</label><input type="number" id="f_banos" placeholder="0"></div>
+            <div class="campo"><label>Garajes</label><input type="number" id="f_garajes" placeholder="0"></div>
+          </div>
+          <div class="fila fila-2">
+            <div class="campo"><label>Zona</label><input type="text" id="f_zona" placeholder="Ej: Zona Sur"></div>
+            <div class="campo"><label>Ciudad</label><input type="text" id="f_ciudad" placeholder="La Paz"></div>
+          </div>
+          <div class="campo"><label>Direccion</label><input type="text" id="f_direccion" placeholder="Calle, numero, referencias"></div>
+
+          <div class="campo">
+            <label>Ubicacion en el mapa</label>
+            <div class="mapa-buscar">
+              <input type="text" id="mapaQuery" placeholder="Buscar direccion o zona...">
+              <button type="button" id="mapaBuscarBtn">Buscar</button>
+            </div>
+            <div id="mapaAdmin"></div>
+            <div class="mapa-coords" id="mapaCoords">Toca el mapa para marcar la ubicacion exacta.</div>
+          </div>
+
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="f_destacada"> Destacada</label>
+            <label class="check"><input type="checkbox" id="f_nuevo"> Nuevo</label>
+            <label class="check"><input type="checkbox" id="f_negociable"> Negociable</label>
+          </div>
+
+          <button class="btn-primary" id="btnPublicar">Publicar propiedad</button>
+          <div class="msg" id="msgForm"></div>
+        </div>
+
+        <!-- Lista -->
+        <div>
+          <div class="lista-head">
+            <h2>Propiedades publicadas</h2>
+            <span class="lista-count" id="listaCount"></span>
+          </div>
+          <div class="lista-cargando" id="listaCargando">Cargando...</div>
+          <div id="listaProps"></div>
+          <div class="lista-vacia" id="listaVacia" style="display:none">Aun no has publicado propiedades.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA LEADS -->
+    <div class="vista" id="vista-leads">
+      <div class="placeholder-vista">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <h2>Leads</h2>
+        <p>Aqui apareceran las personas interesadas que dejen sus datos desde la web. Esta funcion se activara mas adelante.</p>
+        <span class="prox">Proximamente</span>
+      </div>
+    </div>
+
+    <!-- VISTA VISITAS -->
+    <div class="vista" id="vista-visitas">
+      <div class="placeholder-vista">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <h2>Visitas</h2>
+        <p>Aqui se listaran las solicitudes de visita a propiedades. Esta funcion se activara mas adelante.</p>
+        <span class="prox">Proximamente</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+var db = supabase.createClient('https://oasusarhjochiiunefbd.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hc3VzYXJoam9jaGlpdW5lZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjY1NzAsImV4cCI6MjA5NDc0MjU3MH0.5nbsj38T1aIriNi3ugnIWGI3o6_RskhuKKddefexBVM');
+
+var usuario = null, mapa = null, marcador = null, coords = {lat:null, lng:null};
+var fotosNuevas = [];   // {file, url}
+var editandoId = null;
+var fotosExistentes = []; // urls ya guardadas al editar
+
+/* ===== 1) Control de acceso por rol ===== */
+db.auth.getSession().then(function(res){
+  if(!res.data.session){ negarAcceso(); return; }
+  usuario = res.data.session.user;
+  db.from('perfiles').select('rol, nombre_completo').eq('id', usuario.id).single()
+    .then(function(r){
+      if(r.data && r.data.rol === 'admin'){ entrar(); }
+      else { negarAcceso(); }
+    })
+    .catch(function(){ negarAcceso(); });
+});
+function negarAcceso(){
+  document.getElementById('verificando').style.display='none';
+  document.getElementById('sinAcceso').style.display='flex';
+}
+function entrar(){
+  document.getElementById('verificando').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('tbEmail').textContent = usuario.email;
+  initTabs(); initMapa(); initFotos(); initForm();
+  cargarLista();
+}
+
+/* ===== Tabs ===== */
+function initTabs(){
+  document.querySelectorAll('.tab-nav').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab-nav').forEach(function(x){ x.classList.remove('activo'); });
+      document.querySelectorAll('.vista').forEach(function(v){ v.classList.remove('activa'); });
+      t.classList.add('activo');
+      document.getElementById('vista-'+t.dataset.vista).classList.add('activa');
+      if(t.dataset.vista==='propiedades' && mapa){ setTimeout(function(){ mapa.invalidateSize(); }, 100); }
+    });
+  });
+}
+
+/* ===== Cerrar sesion ===== */
+document.getElementById('btnSalir').addEventListener('click', function(){
+  db.auth.signOut().then(function(){ window.location.href='auth.html'; });
+});
+
+/* ===== 2) Mapa Leaflet ===== */
+function initMapa(){
+  mapa = L.map('mapaAdmin', {scrollWheelZoom:false}).setView([-16.5, -68.15], 12); // La Paz
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'&copy; OpenStreetMap', maxZoom:19
+  }).addTo(mapa);
+  mapa.on('click', function(e){ ponerMarcador(e.latlng.lat, e.latlng.lng); });
+  setTimeout(function(){ mapa.invalidateSize(); }, 300);
+
+  document.getElementById('mapaBuscarBtn').addEventListener('click', buscarDireccion);
+  document.getElementById('mapaQuery').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); buscarDireccion(); } });
+}
+function ponerMarcador(lat, lng){
+  coords.lat = lat; coords.lng = lng;
+  if(marcador){ marcador.setLatLng([lat,lng]); }
+  else { marcador = L.marker([lat,lng], {draggable:true}).addTo(mapa);
+    marcador.on('dragend', function(){ var p=marcador.getLatLng(); coords.lat=p.lat; coords.lng=p.lng; actualizarCoords(); }); }
+  actualizarCoords();
+}
+function actualizarCoords(){
+  document.getElementById('mapaCoords').textContent = 'Ubicacion marcada: ' + coords.lat.toFixed(5) + ', ' + coords.lng.toFixed(5);
+}
+function buscarDireccion(){
+  var q = document.getElementById('mapaQuery').value.trim();
+  if(!q) return;
+  fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(q+' Bolivia')+'&limit=1')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.length){ var lat=parseFloat(d[0].lat), lng=parseFloat(d[0].lon); mapa.setView([lat,lng],15); ponerMarcador(lat,lng); }
+      else { document.getElementById('mapaCoords').textContent = 'No se encontro esa direccion. Marca en el mapa manualmente.'; }
+    })
+    .catch(function(){ document.getElementById('mapaCoords').textContent='No se pudo buscar. Marca en el mapa manualmente.'; });
+}
+
+/* ===== 3) Fotos con preview ===== */
+function initFotos(){
+  var input = document.getElementById('f_fotos');
+  input.addEventListener('change', function(){
+    Array.prototype.forEach.call(input.files, function(file){
+      if(!file.type.startsWith('image/')) return;
+      fotosNuevas.push({file:file, url:URL.createObjectURL(file)});
+    });
+    input.value='';
+    renderPreviews();
+  });
+}
+function renderPreviews(){
+  var cont = document.getElementById('previews');
+  var todas = fotosExistentes.map(function(u,i){ return {url:u, existente:true, idx:i}; })
+    .concat(fotosNuevas.map(function(f,i){ return {url:f.url, existente:false, idx:i}; }));
+  cont.innerHTML = todas.map(function(f, pos){
+    return '<div class="preview'+(pos===0?' principal':'')+'">'+
+      '<img src="'+f.url+'" alt="foto">'+
+      '<button class="quitar" data-existente="'+f.existente+'" data-idx="'+f.idx+'" title="Quitar">&times;</button>'+
+    '</div>';
+  }).join('');
+  cont.querySelectorAll('.quitar').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(b.dataset.existente==='true'){ fotosExistentes.splice(parseInt(b.dataset.idx),1); }
+      else { fotosNuevas.splice(parseInt(b.dataset.idx),1); }
+      renderPreviews();
+    });
+  });
+  var total = todas.length;
+  document.getElementById('previewsNota').textContent = total ? (total+' foto(s). La primera es la portada.') : '';
+}
+
+/* ===== 4) Formulario: publicar / actualizar ===== */
+function initForm(){
+  document.getElementById('btnPublicar').addEventListener('click', guardar);
+  document.getElementById('cancelarEdicion').addEventListener('click', resetForm);
+}
+function valores(){
+  var num = function(id){ var v=document.getElementById(id).value; return v===''?null:Number(v); };
+  var txt = function(id){ var v=document.getElementById(id).value.trim(); return v===''?null:v; };
+  return {
+    titulo:txt('f_titulo'), descripcion:txt('f_descripcion'),
+    tipo:document.getElementById('f_tipo').value, operacion:document.getElementById('f_operacion').value,
+    estado:document.getElementById('f_estado').value, precio:num('f_precio'), moneda:document.getElementById('f_moneda').value,
+    m2_construidos:num('f_m2c'), m2_terreno:num('f_m2t'), ano_construccion:num('f_ano'),
+    habitaciones:num('f_hab'), banos:num('f_banos'), garajes:num('f_garajes'),
+    zona:txt('f_zona'), ciudad:txt('f_ciudad'), direccion:txt('f_direccion'),
+    latitud:coords.lat, longitud:coords.lng,
+    destacada:document.getElementById('f_destacada').checked,
+    nuevo:document.getElementById('f_nuevo').checked,
+    negociable:document.getElementById('f_negociable').checked
+  };
+}
+function msg(t, tipo){ var m=document.getElementById('msgForm'); m.className='msg '+tipo; m.textContent=t; }
+
+function guardar(){
+  var datos = valores();
+  if(!datos.titulo){ msg('El titulo es obligatorio.','error'); return; }
+  var btn=document.getElementById('btnPublicar');
+  btn.disabled=true; btn.textContent = editandoId?'Actualizando...':'Publicando...';
+  msg('','');
+
+  var promesa;
+  if(editandoId){
+    promesa = db.from('propiedades').update(datos).eq('id', editandoId).select().single();
+  } else {
+    promesa = db.from('propiedades').insert(datos).select().single();
+  }
+
+  promesa.then(function(res){
+    if(res.error) throw res.error;
+    var propId = res.data.id;
+    return subirFotos(propId).then(function(){ return propId; });
+  }).then(function(){
+    msg(editandoId?'Propiedad actualizada correctamente.':'Propiedad publicada correctamente.','ok');
+    resetForm();
+    cargarLista();
+  }).catch(function(err){
+    msg('Error: '+(err.message||'no se pudo guardar'),'error');
+  }).then(function(){
+    btn.disabled=false; btn.textContent = editandoId?'Actualizar propiedad':'Publicar propiedad';
+  });
+}
+
+function subirFotos(propId){
+  if(fotosNuevas.length===0) return Promise.resolve();
+  var yaHay = fotosExistentes.length;
+  var tareas = fotosNuevas.map(function(f, i){
+    var nombre = propId+'/'+Date.now()+'_'+i+'_'+f.file.name.replace(/[^a-zA-Z0-9._-]/g,'');
+    return db.storage.from('propiedades').upload(nombre, f.file).then(function(up){
+      if(up.error) throw up.error;
+      var pub = db.storage.from('propiedades').getPublicUrl(nombre);
+      var url = pub.data.publicUrl;
+      return db.from('fotos').insert({
+        propiedad_id: propId, url: url, orden: yaHay+i,
+        es_principal: (yaHay===0 && i===0)
+      });
+    });
+  });
+  return Promise.all(tareas);
+}
+
+function resetForm(){
+  editandoId=null; fotosNuevas=[]; fotosExistentes=[]; coords={lat:null,lng:null};
+  ['f_titulo','f_descripcion','f_precio','f_m2c','f_m2t','f_ano','f_hab','f_banos','f_garajes','f_zona','f_ciudad','f_direccion'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('f_tipo').value='casa'; document.getElementById('f_operacion').value='venta';
+  document.getElementById('f_estado').value='activa'; document.getElementById('f_moneda').value='USD';
+  document.getElementById('f_destacada').checked=false; document.getElementById('f_nuevo').checked=false; document.getElementById('f_negociable').checked=false;
+  renderPreviews();
+  document.getElementById('mapaCoords').textContent='Toca el mapa para marcar la ubicacion exacta.';
+  if(marcador){ mapa.removeLayer(marcador); marcador=null; }
+  document.getElementById('formTitulo').textContent='Nueva propiedad';
+  document.getElementById('btnPublicar').textContent='Publicar propiedad';
+  document.getElementById('editandoBanner').classList.remove('visible');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ===== 5) Lista de propiedades ===== */
+function cargarLista(){
+  document.getElementById('listaCargando').style.display='block';
+  db.from('propiedades').select('*, fotos(url, es_principal)').order('created_at',{ascending:false})
+    .then(function(res){
+      document.getElementById('listaCargando').style.display='none';
+      var props = res.data||[];
+      document.getElementById('listaCount').textContent = props.length+' en total';
+      var cont=document.getElementById('listaProps');
+      if(props.length===0){ cont.innerHTML=''; document.getElementById('listaVacia').style.display='block'; return; }
+      document.getElementById('listaVacia').style.display='none';
+      cont.innerHTML = props.map(itemHTML).join('');
+      cont.querySelectorAll('.btn-editar').forEach(function(b){ b.addEventListener('click', function(){ editar(b.dataset.id, props); }); });
+      cont.querySelectorAll('.btn-borrar').forEach(function(b){ b.addEventListener('click', function(){ borrar(b.dataset.id, b.dataset.titulo); }); });
+    })
+    .catch(function(){ document.getElementById('listaCargando').textContent='Error al cargar.'; });
+}
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function itemHTML(p){
+  var fotos=Array.isArray(p.fotos)?p.fotos:[];
+  var fp=fotos.filter(function(f){return f.es_principal;})[0]||fotos[0];
+  var thumb = fp?'<img class="prop-thumb" src="'+esc(fp.url)+'" alt="">':'<div class="prop-thumb-ph">Sin foto</div>';
+  var op=(p.operacion||'').toLowerCase();
+  var precio = p.precio!=null?('$'+Number(p.precio).toLocaleString('es-BO')):'Consultar';
+  var meta=[p.tipo,p.zona,p.ciudad].filter(Boolean).join(' · ');
+  var badges='<span class="mini-badge '+(op==='alquiler'?'mb-alq':'mb-venta')+'">'+(op==='alquiler'?'Alquiler':'Venta')+'</span>';
+  if(p.destacada) badges+='<span class="mini-badge mb-dest">Destacada</span>';
+  return '<div class="prop-item">'+thumb+
+    '<div class="prop-datos"><h3>'+esc(p.titulo||'Sin titulo')+' — '+precio+'</h3>'+
+    '<div class="meta">'+esc(meta)+'</div><div class="prop-badges">'+badges+'</div></div>'+
+    '<div class="prop-acciones">'+
+      '<button class="btn-mini btn-editar" data-id="'+p.id+'">Editar</button>'+
+      '<button class="btn-mini del btn-borrar" data-id="'+p.id+'" data-titulo="'+esc(p.titulo||'')+'">Borrar</button>'+
+    '</div></div>';
+}
+
+function editar(id, props){
+  var p = props.find(function(x){ return String(x.id)===String(id); });
+  if(!p) return;
+  editandoId = id;
+  var set=function(i,v){ document.getElementById(i).value = v==null?'':v; };
+  set('f_titulo',p.titulo); set('f_descripcion',p.descripcion); set('f_precio',p.precio);
+  set('f_m2c',p.m2_construidos); set('f_m2t',p.m2_terreno); set('f_ano',p.ano_construccion);
+  set('f_hab',p.habitaciones); set('f_banos',p.banos); set('f_garajes',p.garajes);
+  set('f_zona',p.zona); set('f_ciudad',p.ciudad); set('f_direccion',p.direccion);
+  document.getElementById('f_tipo').value=p.tipo||'casa';
+  document.getElementById('f_operacion').value=p.operacion||'venta';
+  document.getElementById('f_estado').value=p.estado||'activa';
+  document.getElementById('f_moneda').value=p.moneda||'USD';
+  document.getElementById('f_destacada').checked=!!p.destacada;
+  document.getElementById('f_nuevo').checked=!!p.nuevo;
+  document.getElementById('f_negociable').checked=!!p.negociable;
+  fotosExistentes = (p.fotos||[]).slice().sort(function(a,b){ return (b.es_principal?1:0)-(a.es_principal?1:0); }).map(function(f){ return f.url; });
+  fotosNuevas=[];
+  renderPreviews();
+  coords={lat:p.latitud||null, lng:p.longitud||null};
+  if(p.latitud && p.longitud){ mapa.setView([p.latitud,p.longitud],15); ponerMarcador(p.latitud,p.longitud); }
+  else if(marcador){ mapa.removeLayer(marcador); marcador=null; document.getElementById('mapaCoords').textContent='Toca el mapa para marcar la ubicacion exacta.'; }
+  document.getElementById('formTitulo').textContent='Editar propiedad';
+  document.getElementById('btnPublicar').textContent='Actualizar propiedad';
+  document.getElementById('editandoBanner').classList.add('visible');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function borrar(id, titulo){
+  if(!confirm('¿Borrar la propiedad "'+titulo+'"? Esta accion no se puede deshacer.')) return;
+  db.from('fotos').delete().eq('propiedad_id', id).then(function(){
+    return db.from('propiedades').delete().eq('id', id);
+  }).then(function(res){
+    if(res.error){ alert('Error al borrar: '+res.error.message); return; }
+    cargarLista();
+  }).catch(function(err){ alert('Error: '+(err.message||'no se pudo borrar')); });
+}
+})();
+</script>
+</body>
+</html>

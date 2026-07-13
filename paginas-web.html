@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paginas Web — Vercelli</title>
+<meta name="description" content="Creamos la pagina web que tu negocio merece. Diseño profesional, mantenimiento y crecimiento continuo. La Paz, Bolivia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#0A1428;--noche-2:#0D1B33;--marino:#1B2B4B;
+  --oro:#D4B48A;--oro-claro:#E9D5B3;--crema:#F5F2EA;--tinta:#17233B;
+  --linea-oro:rgba(212,180,138,.35);--linea-crema:rgba(245,242,234,.10);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Manrope',-apple-system,sans-serif;
+  --curva:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--noche);color:var(--crema);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+body.lock{overflow:hidden}
+::selection{background:var(--oro);color:var(--noche)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+
+.grain{position:fixed;inset:-50%;z-index:80;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grano 9s steps(6) infinite}
+@keyframes grano{0%,100%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}50%{transform:translate(1%,-2%)}75%{transform:translate(2%,1%)}}
+
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:200;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%);will-change:transform}
+.cursor-dot{width:6px;height:6px;background:var(--oro)}
+.cursor-ring{width:38px;height:38px;border:1px solid var(--linea-oro);transition:width .35s var(--curva),height .35s var(--curva),border-color .35s}
+.cursor-ring.activo{width:60px;height:60px;border-color:var(--oro)}
+@media (pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+@media (pointer:fine){html.cursor-oculto,html.cursor-oculto *{cursor:none!important}}
+
+#escena{position:absolute;inset:0;z-index:0;pointer-events:none;height:100%}
+#escena canvas{display:block;width:100%;height:100%}
+.halo{position:absolute;z-index:0;pointer-events:none;border-radius:50%;filter:blur(90px);opacity:.5}
+.halo-a{width:55vw;height:55vw;left:-18vw;top:-16vw;background:radial-gradient(circle,#22375f 0%,transparent 65%);animation:deriva-a 26s ease-in-out infinite alternate}
+.halo-b{width:40vw;height:40vw;right:-12vw;top:14vh;background:radial-gradient(circle,rgba(212,180,138,.18) 0%,transparent 65%);animation:deriva-b 32s ease-in-out infinite alternate}
+@keyframes deriva-a{from{transform:translate(0,0)}to{transform:translate(6vw,7vh)}}
+@keyframes deriva-b{from{transform:translate(0,0)}to{transform:translate(-6vw,-5vh)}}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem clamp(1.2rem,4vw,3.5rem);transition:background .5s,backdrop-filter .5s,padding .5s,border-color .5s;border-bottom:1px solid transparent}
+.nav.solida{background:rgba(10,20,40,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom-color:var(--linea-crema);padding-top:.85rem;padding-bottom:.85rem}
+.nav-marca{display:flex;align-items:center}
+.nav-punto{width:12px;height:12px;border-radius:50%;background:var(--oro);box-shadow:0 0 0 4px rgba(212,180,138,.14);transition:transform .4s var(--curva),box-shadow .4s;display:block}
+.nav-marca:hover .nav-punto{transform:scale(1.25);box-shadow:0 0 0 7px rgba(212,180,138,.18)}
+.nav-links{display:flex;gap:2.2rem;align-items:center}
+.nav-link{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;color:rgba(245,242,234,.72);position:relative;padding:.3rem 0;transition:color .3s}
+.nav-link.actual{color:var(--oro)}
+.nav-link::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--oro);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--curva)}
+.nav-link:hover{color:var(--crema)}
+.nav-link:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-sesion{font-size:.73rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:.6rem 1.5rem;border:1px solid rgba(245,242,234,.3);border-radius:99px;background:transparent;color:var(--crema);transition:border-color .35s,background .35s,color .35s,transform .35s;display:inline-block}
+.nav-sesion:hover{border-color:var(--oro);background:var(--oro);color:var(--noche);transform:translateY(-1px)}
+.burger{display:none;width:44px;height:44px;background:none;border:none;flex-direction:column;justify-content:center;align-items:center;gap:7px;z-index:130;flex-shrink:0;padding:0}
+.burger i{display:block;width:26px;height:1.5px;background:var(--crema);transition:transform .4s var(--curva),opacity .3s}
+.burger.abierto i:first-child{transform:translateY(4.2px) rotate(45deg)}
+.burger.abierto i:last-child{transform:translateY(-4.2px) rotate(-45deg)}
+.menu-movil{position:fixed;inset:0;z-index:120;background:rgba(8,15,30,.97);display:flex;flex-direction:column;justify-content:center;padding:0 clamp(2rem,8vw,4rem);gap:.3rem;opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+.menu-movil.abierto{opacity:1;visibility:visible}
+.menu-movil a{font-family:var(--serif);font-size:clamp(2rem,9vw,3.2rem);font-weight:500;padding:.35rem 0;border-bottom:1px solid var(--linea-crema);transition:color .3s}
+.menu-movil a:hover{color:var(--oro)}
+
+/* Utilidades */
+.eyebrow{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;font-weight:600;color:var(--oro);display:inline-flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.eyebrow::before{content:'';width:38px;height:1px;background:var(--linea-oro)}
+.btn{position:relative;overflow:hidden;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:1.05rem 2.4rem;border-radius:99px;border:1px solid transparent;transition:transform .4s var(--curva),box-shadow .4s,border-color .35s,background .35s,color .35s;display:inline-block}
+.btn-oro{background:var(--oro);color:var(--noche)}
+.btn-oro::after{content:'';position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .7s var(--curva)}
+.btn-oro:hover{transform:translateY(-3px);box-shadow:0 18px 40px -14px rgba(212,180,138,.45)}
+.btn-oro:hover::after{left:130%}
+.btn-linea{border-color:rgba(245,242,234,.32);color:var(--crema);background:transparent}
+.btn-linea:hover{border-color:var(--oro);color:var(--oro-claro);transform:translateY(-3px)}
+[data-reveal]{opacity:0;transform:translateY(44px)}
+.sin-motion [data-reveal]{opacity:1;transform:none}
+
+/* Hero */
+.hero{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem clamp(1.2rem,5vw,4rem) 5rem;overflow:hidden}
+.hero-sobre{position:relative;z-index:2;font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem}
+.hero-sobre::before,.hero-sobre::after{content:'';width:44px;height:1px;background:var(--linea-oro)}
+.hero-titulo{position:relative;z-index:2;font-family:var(--serif);font-weight:500;font-size:clamp(2.6rem,7.4vw,5.8rem);line-height:1.06;max-width:16ch}
+.hero-titulo em{font-style:italic;color:var(--oro-claro)}
+.hero-sub{position:relative;z-index:2;margin-top:2rem;max-width:50ch;font-size:clamp(.95rem,1.4vw,1.08rem);font-weight:300;color:rgba(245,242,234,.68);line-height:1.9}
+.hero-acciones{position:relative;z-index:2;margin-top:3rem;display:flex;gap:1.1rem;flex-wrap:wrap;justify-content:center}
+.hero-scroll{position:absolute;bottom:2.4rem;right:clamp(1.4rem,4vw,3.5rem);display:flex;flex-direction:column;align-items:center;gap:.9rem;font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(245,242,234,.45);writing-mode:vertical-rl;z-index:2}
+.hero-scroll i{writing-mode:horizontal-tb;width:1px;height:52px;background:var(--linea-crema);position:relative;overflow:hidden;display:block}
+.hero-scroll i::after{content:'';position:absolute;top:-30%;left:0;width:100%;height:30%;background:var(--oro);animation:gota 2.2s var(--curva) infinite}
+@keyframes gota{0%{top:-30%}60%,100%{top:110%}}
+@media (max-width:760px){.hero-scroll{display:none}}
+
+.seccion{position:relative;z-index:2;padding:clamp(5.5rem,12vw,10rem) clamp(1.4rem,6vw,4.5rem)}
+.contenedor{max-width:1200px;margin:0 auto}
+
+/* Problema */
+.problema{background:var(--noche-2)}
+.problema-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,6rem);align-items:center}
+.problema h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.15;margin-bottom:1.5rem}
+.problema h2 em{font-style:italic;color:var(--oro-claro)}
+.problema p{color:rgba(245,242,234,.66);font-weight:300;line-height:1.9;margin-bottom:1.2rem;max-width:46ch}
+.problema-stats{display:flex;flex-direction:column;gap:1.6rem}
+.stat{border-left:1px solid var(--linea-oro);padding-left:1.6rem}
+.stat b{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:600;color:var(--oro-claro);display:block;line-height:1}
+.stat span{font-size:.85rem;color:rgba(245,242,234,.55);font-weight:300}
+
+/* Para todos */
+.rubros{background:var(--noche);text-align:center;overflow:hidden}
+.rubros h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.15;max-width:20ch;margin:0 auto 1.2rem}
+.rubros h2 em{font-style:italic;color:var(--oro-claro)}
+.rubros-sub{color:rgba(245,242,234,.6);font-weight:300;max-width:46ch;margin:0 auto 3.5rem}
+.marquesina{position:relative;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquesina-pista{display:flex;gap:1rem;width:max-content;animation:correr 32s linear infinite}
+.marquesina:hover .marquesina-pista{animation-play-state:paused}
+.marquesina + .marquesina{margin-top:1rem}
+.marquesina.rev .marquesina-pista{animation-direction:reverse;animation-duration:38s}
+@keyframes correr{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.rubro-chip{white-space:nowrap;font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:500;color:rgba(245,242,234,.78);border:1px solid var(--linea-crema);border-radius:99px;padding:.7rem 1.8rem;transition:border-color .35s,color .35s,background .35s}
+.rubro-chip:hover{border-color:var(--oro);color:var(--oro-claro);background:rgba(212,180,138,.06)}
+.rubro-chip.dot{color:var(--oro)}
+
+/* Proceso */
+.proceso{background:var(--noche-2)}
+.proceso-cab{max-width:1200px;margin:0 auto 4rem}
+.proceso-cab h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.12;max-width:16ch}
+.proceso-cab h2 em{font-style:italic;color:var(--oro-claro)}
+.pasos{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--linea-crema)}
+.paso{padding:2.4rem 1.8rem 2.6rem;border-right:1px solid var(--linea-crema);position:relative}
+.paso:last-child{border-right:none}
+.paso::before{content:'';position:absolute;top:-1px;left:0;width:100%;height:1px;background:var(--oro);transform:scaleX(0);transform-origin:left;transition:transform .8s var(--curva)}
+.paso.visto::before{transform:scaleX(1)}
+.paso-num{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--oro);margin-bottom:2rem;display:block}
+.paso h3{font-family:var(--serif);font-weight:500;font-size:1.5rem;margin-bottom:.8rem}
+.paso p{font-size:.86rem;font-weight:300;color:rgba(245,242,234,.6);line-height:1.8}
+
+/* Planes */
+.planes{background:var(--noche)}
+.planes-cab{text-align:center;max-width:640px;margin:0 auto 4rem}
+.planes-cab h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.1;margin-bottom:1rem}
+.planes-cab h2 em{font-style:italic;color:var(--oro-claro)}
+.planes-cab p{color:rgba(245,242,234,.6);font-weight:300}
+.planes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:1150px;margin:0 auto;align-items:stretch}
+.plan{position:relative;background:rgba(13,27,51,.55);border:1px solid var(--linea-crema);border-radius:20px;padding:2.6rem 2rem;display:flex;flex-direction:column;transition:transform .5s var(--curva),border-color .4s,box-shadow .5s}
+.plan:hover{transform:translateY(-8px);border-color:var(--linea-oro);box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+.plan.destacado{border-color:var(--oro);background:linear-gradient(180deg,rgba(212,180,138,.08),rgba(13,27,51,.55))}
+.plan-etiqueta{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--oro);color:var(--noche);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:.35rem 1rem;border-radius:99px}
+.plan-nombre{font-family:var(--serif);font-weight:600;font-size:2rem;color:var(--oro-claro);margin-bottom:.5rem}
+.plan-tag{font-size:.85rem;color:rgba(245,242,234,.55);font-weight:300;line-height:1.6;margin-bottom:1.8rem;min-height:2.6em}
+.plan-linea{height:1px;background:var(--linea-crema);margin-bottom:1.8rem}
+.plan-lista{list-style:none;display:flex;flex-direction:column;gap:.9rem;margin-bottom:2.2rem;flex:1}
+.plan-lista li{display:flex;gap:.7rem;align-items:flex-start;font-size:.88rem;font-weight:300;color:rgba(245,242,234,.78);line-height:1.5}
+.plan-lista li::before{content:'';flex-shrink:0;width:16px;height:16px;margin-top:3px;border-radius:50%;background:rgba(212,180,138,.16);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4B48A' stroke-width='3'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");background-size:11px;background-position:center;background-repeat:no-repeat}
+.plan .btn{width:100%;text-align:center}
+
+/* CTA */
+.cta{background:var(--noche-2);text-align:center;overflow:hidden}
+.cta::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:80vw;height:80vw;border-radius:50%;background:radial-gradient(circle,rgba(212,180,138,.10) 0%,transparent 60%);pointer-events:none}
+.cta h2{position:relative;font-family:var(--serif);font-weight:500;font-size:clamp(2.3rem,6vw,4.6rem);line-height:1.1;max-width:18ch;margin:0 auto 1.4rem}
+.cta h2 em{font-style:italic;color:var(--oro-claro)}
+.cta p{position:relative;color:rgba(245,242,234,.6);font-weight:300;max-width:46ch;margin:0 auto 2.8rem}
+
+/* Pie */
+.pie{position:relative;z-index:2;background:#081020;padding:3.5rem clamp(1.4rem,6vw,4.5rem) 2rem;border-top:1px solid var(--linea-crema);text-align:center}
+.pie-marca{font-family:var(--serif);font-weight:600;font-size:1.4rem;letter-spacing:.3em;text-indent:.3em;margin-bottom:.8rem}
+.pie-tag{font-size:.82rem;font-weight:300;color:rgba(245,242,234,.45);margin-bottom:1.6rem}
+.pie-base{font-size:.7rem;letter-spacing:.12em;color:rgba(245,242,234,.35);padding-top:1.4rem;border-top:1px solid var(--linea-crema)}
+
+@media (max-width:900px){
+  .problema-grid{grid-template-columns:1fr}
+  .pasos{grid-template-columns:1fr 1fr}
+  .paso{border-bottom:1px solid var(--linea-crema)}
+  .planes-grid{grid-template-columns:1fr;max-width:440px}
+}
+@media (max-width:760px){
+  .nav-links,.nav-sesion{display:none}
+  .nav{padding:1rem 1.2rem}
+  .burger{display:flex;align-items:center;justify-content:center}
+}
+@media (max-width:560px){.pasos{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .grain{display:none}
+  .marquesina-pista{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="halo halo-a"></div>
+<div class="halo halo-b"></div>
+<div class="grain"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="nav-marca" aria-label="Vercelli inicio" data-hover><span class="nav-punto"></span></a>
+  <nav class="nav-links">
+    <a class="nav-link" href="index.html" data-hover>Inicio</a>
+    <a class="nav-link" href="catalogo.html" data-hover>Inmobiliaria</a>
+    <a class="nav-link actual" href="paginas-web.html" data-hover>Paginas Web</a>
+    <a class="nav-link" href="marketing.html" data-hover>Marketing</a>
+    <a class="nav-link" href="nosotros.html" data-hover>Nosotros</a>
+  </nav>
+  <a class="nav-sesion" href="auth.html" data-hover>Iniciar sesion</a>
+  <button class="burger" id="burger" aria-label="Abrir menu"><i></i><i></i></button>
+</header>
+
+<div class="menu-movil" id="menuMovil">
+  <a href="index.html">Inicio</a>
+  <a href="catalogo.html">Inmobiliaria</a>
+  <a href="paginas-web.html">Paginas Web</a>
+  <a href="marketing.html">Marketing</a>
+  <a href="nosotros.html">Nosotros</a>
+  <a href="auth.html">Iniciar sesion</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div id="escena"></div>
+  <div class="hero-sobre">Paginas Web</div>
+  <h1 class="hero-titulo">Tu negocio, en internet <em>como se debe.</em></h1>
+  <p class="hero-sub">No hacemos paginas. Construimos la primera impresion de tu negocio: el lugar donde te encuentran, confian en ti y deciden contactarte.</p>
+  <div class="hero-acciones">
+    <a class="btn btn-oro" href="#planes" data-hover>Ver como trabajamos</a>
+    <a class="btn btn-linea" href="https://wa.me/59162222274?text=Hola%20Vercelli%2C%20quiero%20cotizar%20una%20pagina%20web" target="_blank" rel="noopener" data-hover>Cotiza con nosotros</a>
+  </div>
+  <div class="hero-scroll"><span>Desliza</span><i></i></div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="seccion problema">
+  <div class="contenedor problema-grid">
+    <div>
+      <div class="eyebrow" data-reveal>El problema real</div>
+      <h2 data-reveal>Un negocio sin buena presencia online <em>pierde clientes que ni sabe que perdio.</em></h2>
+      <p data-reveal>Hoy la gente busca antes de comprar. Si tu negocio no aparece, o aparece con una pagina descuidada, el cliente asume lo peor y se va con la competencia.</p>
+      <p data-reveal>Una pagina bien hecha no es un gasto. Es el vendedor que trabaja por ti las 24 horas, sin descanso y sin sueldo.</p>
+    </div>
+    <div class="problema-stats" data-reveal>
+      <div class="stat"><b>3 seg</b><span>es lo que tarda alguien en juzgar tu negocio por tu sitio.</span></div>
+      <div class="stat"><b>75%</b><span>de las personas juzga la credibilidad de un negocio por su pagina.</span></div>
+      <div class="stat"><b>24/7</b><span>tu pagina atiende y capta clientes, incluso mientras duermes.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA TODOS -->
+<section class="seccion rubros">
+  <div class="contenedor">
+    <div class="eyebrow" style="justify-content:center" data-reveal>Sin importar tu rubro</div>
+    <h2 data-reveal>Si tienes un negocio, <em>tienes un lugar aqui.</em></h2>
+    <p class="rubros-sub" data-reveal>Adaptamos cada pagina al caracter de tu negocio. Da igual a que te dedicas: te hacemos ver profesional.</p>
+  </div>
+  <div class="marquesina" data-reveal>
+    <div class="marquesina-pista">
+      <span class="rubro-chip">Restaurantes</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Clinicas</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Gimnasios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Salones de belleza</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Constructoras</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Cafeterias</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Abogados</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Restaurantes</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Clinicas</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Gimnasios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Salones de belleza</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Constructoras</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Cafeterias</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Abogados</span><span class="rubro-chip dot">&middot;</span>
+    </div>
+  </div>
+  <div class="marquesina rev">
+    <div class="marquesina-pista">
+      <span class="rubro-chip">Hoteles</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Talleres</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Consultorios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Estudios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Tiendas</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Veterinarias</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Colegios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Hoteles</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Talleres</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Consultorios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Estudios</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Tiendas</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Veterinarias</span><span class="rubro-chip dot">&middot;</span>
+      <span class="rubro-chip">Colegios</span><span class="rubro-chip dot">&middot;</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="seccion proceso">
+  <div class="proceso-cab">
+    <div class="eyebrow" data-reveal>Como trabajamos</div>
+    <h2 data-reveal>Un metodo claro, <em>sin sorpresas.</em></h2>
+  </div>
+  <div class="contenedor">
+    <div class="pasos">
+      <div class="paso" data-reveal>
+        <span class="paso-num">I</span>
+        <h3>Conversamos</h3>
+        <p>Entendemos tu negocio, tus clientes y que quieres lograr. Sin tecnicismos.</p>
+      </div>
+      <div class="paso" data-reveal>
+        <span class="paso-num">II</span>
+        <h3>Diseñamos</h3>
+        <p>Creamos una pagina a la medida de tu marca, pensada para convertir visitantes en clientes.</p>
+      </div>
+      <div class="paso" data-reveal>
+        <span class="paso-num">III</span>
+        <h3>Lanzamos</h3>
+        <p>Publicamos tu sitio, lo conectamos con tus canales y nos aseguramos de que todo funcione.</p>
+      </div>
+      <div class="paso" data-reveal>
+        <span class="paso-num">IV</span>
+        <h3>Acompañamos</h3>
+        <p>No desaparecemos. Mantenemos, mejoramos y te mostramos los resultados cada mes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANES -->
+<section class="seccion planes" id="planes">
+  <div class="planes-cab">
+    <div class="eyebrow" style="justify-content:center" data-reveal>Nuestros planes</div>
+    <h2 data-reveal>Elige como <em>quieres crecer.</em></h2>
+    <p data-reveal>Cada negocio es distinto. Por eso conversamos tu caso y armamos la propuesta que mejor te sirve.</p>
+  </div>
+  <div class="planes-grid">
+    <div class="plan" data-reveal>
+      <div class="plan-nombre">Esencial</div>
+      <p class="plan-tag">La pagina profesional que tu negocio necesita para empezar a verse serio.</p>
+      <div class="plan-linea"></div>
+      <ul class="plan-lista">
+        <li>Diseño a la medida de tu marca</li>
+        <li>Informacion, servicios y ubicacion</li>
+        <li>Boton de contacto directo por WhatsApp</li>
+        <li>Optimizada para celular y escritorio</li>
+        <li>Publicacion y puesta en marcha</li>
+      </ul>
+      <a class="btn btn-linea" href="https://wa.me/59162222274?text=Hola%20Vercelli,%20me%20interesa%20el%20plan%20Esencial" target="_blank" rel="noopener" data-hover>Cotiza con nosotros</a>
+    </div>
+    <div class="plan destacado" data-reveal>
+      <span class="plan-etiqueta">Recomendado</span>
+      <div class="plan-nombre">Crecimiento</div>
+      <p class="plan-tag">Tu pagina, siempre al dia, con un panel para ver quien te contacta.</p>
+      <div class="plan-linea"></div>
+      <ul class="plan-lista">
+        <li>Todo lo del plan Esencial</li>
+        <li>Mantenimiento mensual incluido</li>
+        <li>Actualizaciones cuando las pidas</li>
+        <li>Panel simple con tus visitas y contactos</li>
+        <li>Soporte prioritario</li>
+      </ul>
+      <a class="btn btn-oro" href="https://wa.me/59162222274?text=Hola%20Vercelli,%20me%20interesa%20el%20plan%20Crecimiento" target="_blank" rel="noopener" data-hover>Cotiza con nosotros</a>
+    </div>
+    <div class="plan" data-reveal>
+      <div class="plan-nombre">Premium</div>
+      <p class="plan-tag">Para negocios que quieren que su pagina sea una maquina de clientes.</p>
+      <div class="plan-linea"></div>
+      <ul class="plan-lista">
+        <li>Todo lo del plan Crecimiento</li>
+        <li>Estrategia de contenido</li>
+        <li>Optimizacion para aparecer en Google</li>
+        <li>Reportes mensuales de clientes potenciales</li>
+        <li>Asesoria de crecimiento continuo</li>
+      </ul>
+      <a class="btn btn-linea" href="https://wa.me/59162222274?text=Hola%20Vercelli,%20me%20interesa%20el%20plan%20Premium" target="_blank" rel="noopener" data-hover>Cotiza con nosotros</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="seccion cta">
+  <h2 data-reveal>Tu competencia ya <em>esta en internet.</em></h2>
+  <p data-reveal>Conversemos sin compromiso. Te decimos que puede hacer una buena pagina por tu negocio y cuanto costaria.</p>
+  <a class="btn btn-oro" href="https://wa.me/59162222274?text=Hola%20Vercelli,%20quiero%20cotizar%20una%20pagina%20web" target="_blank" rel="noopener" data-reveal data-hover>Escríbenos por WhatsApp</a>
+</section>
+
+<footer class="pie">
+  <div class="pie-marca">VERCELLI</div>
+  <p class="pie-tag">Tu socio en bienes raices, presencia digital y marketing.</p>
+  <div class="pie-base">&copy; 2026 Vercelli — La Paz, Bolivia</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+'use strict';
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var finePointer = window.matchMedia('(pointer: fine)').matches;
+var movil = window.innerWidth < 768;
+function lerp(a,b,n){ return a+(b-a)*n; }
+
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function(){ nav.classList.toggle('solida', window.scrollY > 40); }, {passive:true});
+
+var burger = document.getElementById('burger');
+var menuMovil = document.getElementById('menuMovil');
+burger.addEventListener('click', function(){
+  var ab = menuMovil.classList.toggle('abierto');
+  burger.classList.toggle('abierto', ab);
+  document.body.classList.toggle('lock', ab);
+});
+menuMovil.querySelectorAll('a').forEach(function(a){
+  a.addEventListener('click', function(){ menuMovil.classList.remove('abierto'); burger.classList.remove('abierto'); document.body.classList.remove('lock'); });
+});
+
+if(finePointer && !reduced){
+  document.documentElement.classList.add('cursor-oculto');
+  var dot = document.getElementById('cDot'), ring = document.getElementById('cRing');
+  var mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+  document.addEventListener('pointermove', function(e){ mx = e.clientX; my = e.clientY; }, {passive:true});
+  (function mover(){
+    rx = lerp(rx,mx,.16); ry = lerp(ry,my,.16);
+    dot.style.transform = 'translate('+mx+'px,'+my+'px) translate(-50%,-50%)';
+    ring.style.transform = 'translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';
+    requestAnimationFrame(mover);
+  })();
+  document.addEventListener('mouseover', function(e){ if(e.target.closest('[data-hover],a,button')) ring.classList.add('activo'); });
+  document.addEventListener('mouseout', function(e){ if(e.target.closest('[data-hover],a,button')) ring.classList.remove('activo'); });
+} else { document.getElementById('cDot').style.display='none'; document.getElementById('cRing').style.display='none'; }
+
+/* Anclas suaves */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    var id = a.getAttribute('href');
+    if(id.length>1){ var d = document.querySelector(id); if(d){ e.preventDefault(); d.scrollIntoView({behavior:'smooth'}); } }
+  });
+});
+
+/* Escena 3D */
+function iniciarEscena(){
+  if(!window.THREE || reduced) return;
+  try{
+    var cont = document.getElementById('escena');
+    var renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    function tam(){ return {w:cont.clientWidth, h:cont.clientHeight}; }
+    var d = tam(); renderer.setSize(d.w,d.h); cont.appendChild(renderer.domElement);
+    var escena = new THREE.Scene(); escena.fog = new THREE.FogExp2(0x0A1428,.055);
+    var cam = new THREE.PerspectiveCamera(55, d.w/d.h, .1, 200); cam.position.set(0,1,14);
+    var n = movil?500:1100;
+    var pos = new Float32Array(n*3);
+    for(var i=0;i<n;i++){ pos[i*3]=(Math.random()-.5)*44; pos[i*3+1]=(Math.random()-.5)*22; pos[i*3+2]=(Math.random()-.5)*22-2; }
+    var geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    var polvo = new THREE.Points(geo, new THREE.PointsMaterial({color:0xD4B48A,size:.07,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false}));
+    escena.add(polvo);
+    var mX=0,mY=0;
+    document.addEventListener('pointermove', function(e){ mX=(e.clientX/innerWidth-.5)*2; mY=(e.clientY/innerHeight-.5)*2; }, {passive:true});
+    var reloj = new THREE.Clock();
+    (function cuadro(){
+      requestAnimationFrame(cuadro); if(document.hidden) return;
+      var t = reloj.getElapsedTime();
+      polvo.rotation.y = t*.02;
+      cam.position.x = lerp(cam.position.x, mX*1.4, .04);
+      cam.position.y = lerp(cam.position.y, 1-mY*.6, .04);
+      cam.lookAt(0,0,0);
+      renderer.render(escena,cam);
+    })();
+    window.addEventListener('resize', function(){ var d2=tam(); cam.aspect=d2.w/d2.h; cam.updateProjectionMatrix(); renderer.setSize(d2.w,d2.h); });
+  }catch(e){}
+}
+iniciarEscena();
+
+/* Reveals */
+window.addEventListener('load', function(){
+  if(!window.gsap || reduced){ document.documentElement.classList.add('sin-motion'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('[data-reveal]').forEach(function(el){
+    gsap.to(el, {opacity:1, y:0, duration:1.1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 88%'}});
+  });
+  gsap.utils.toArray('.paso').forEach(function(p,i){
+    ScrollTrigger.create({trigger:p, start:'top 85%', onEnter:function(){ setTimeout(function(){ p.classList.add('visto'); }, i*130); }});
+  });
+});
+})();
+</script>
+</body>
+</html>

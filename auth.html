@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar sesion — Vercelli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--noche:#0A1428;--noche-2:#0D1B33;--marino:#1B2B4B;--oro:#D4B48A;--oro-claro:#E9D5B3;--crema:#F5F2EA;--tinta:#17233B;--linea-oro:rgba(212,180,138,.35);--linea-crema:rgba(245,242,234,.10);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',-apple-system,sans-serif;--curva:cubic-bezier(.22,1,.36,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--noche);color:var(--crema);-webkit-font-smoothing:antialiased;line-height:1.6;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+::selection{background:var(--oro);color:var(--noche)}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}
+.grain{position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grano 9s steps(6) infinite}
+@keyframes grano{0%,100%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}50%{transform:translate(1%,-2%)}75%{transform:translate(2%,1%)}}
+.halo{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(90px)}
+.halo-a{width:55vw;height:55vw;left:-18vw;top:-16vw;background:radial-gradient(circle,#22375f 0%,transparent 65%);opacity:.55;animation:deriva-a 26s ease-in-out infinite alternate}
+.halo-b{width:44vw;height:44vw;right:-14vw;bottom:-16vh;background:radial-gradient(circle,rgba(212,180,138,.2) 0%,transparent 65%);opacity:.5;animation:deriva-b 32s ease-in-out infinite alternate}
+@keyframes deriva-a{from{transform:translate(0,0)}to{transform:translate(6vw,7vh)}}
+@keyframes deriva-b{from{transform:translate(0,0)}to{transform:translate(-6vw,-5vh)}}
+#escena{position:fixed;inset:0;z-index:0;pointer-events:none}
+#escena canvas{display:block}
+/* Marca arriba */
+.tope{position:relative;z-index:5;padding:2.2rem;display:flex;justify-content:center}
+.marca{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:.34em;text-indent:.34em;color:var(--crema);transition:color .3s}
+.marca:hover{color:var(--oro-claro)}
+/* Centro */
+.centro{position:relative;z-index:5;flex:1;display:flex;align-items:center;justify-content:center;padding:1rem 1.4rem 4rem}
+.tarjeta{width:100%;max-width:440px;background:rgba(13,27,51,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--linea-crema);border-radius:24px;padding:clamp(2rem,5vw,3rem);box-shadow:0 40px 90px -40px rgba(0,0,0,.8)}
+.tarjeta-sobre{font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--oro);font-weight:600;text-align:center;margin-bottom:1rem}
+.tarjeta-titulo{font-family:var(--serif);font-weight:500;font-size:2.1rem;text-align:center;margin-bottom:.4rem}
+.tarjeta-sub{text-align:center;color:rgba(245,242,234,.55);font-weight:300;font-size:.9rem;margin-bottom:2rem}
+/* Tabs */
+.tabs{display:flex;background:rgba(245,242,234,.04);border:1px solid var(--linea-crema);border-radius:12px;padding:.3rem;margin-bottom:1.8rem}
+.tab{flex:1;text-align:center;padding:.7rem;font-size:.8rem;font-weight:500;letter-spacing:.04em;color:rgba(245,242,234,.6);border-radius:9px;background:transparent;border:none;transition:background .3s,color .3s}
+.tab.activo{background:var(--oro);color:var(--noche);font-weight:600}
+/* Form */
+.form{display:none;flex-direction:column;gap:1.1rem}
+.form.activo{display:flex;animation:aparecer .4s var(--curva)}
+@keyframes aparecer{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.campo{display:flex;flex-direction:column;gap:.5rem}
+.campo label{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,242,234,.55);font-weight:500}
+.campo input{background:rgba(245,242,234,.05);border:1px solid var(--linea-crema);border-radius:11px;padding:.85rem 1rem;color:var(--crema);font-size:.95rem;font-family:inherit;outline:none;transition:border-color .3s,background .3s}
+.campo input::placeholder{color:rgba(245,242,234,.35)}
+.campo input:focus{border-color:var(--oro);background:rgba(245,242,234,.08)}
+.btn-enviar{margin-top:.5rem;background:var(--oro);color:var(--noche);border:none;border-radius:11px;padding:1rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;transition:transform .3s,box-shadow .3s,opacity .3s;position:relative;overflow:hidden}
+.btn-enviar:hover{transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(212,180,138,.5)}
+.btn-enviar:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
+.link-cambio{text-align:center;font-size:.86rem;color:rgba(245,242,234,.55);font-weight:300;margin-top:.4rem}
+.link-cambio b{color:var(--oro-claro);cursor:pointer;font-weight:500}
+.link-cambio b:hover{text-decoration:underline}
+.olvide{text-align:center;font-size:.8rem;color:rgba(245,242,234,.45);margin-top:.2rem;cursor:pointer;transition:color .3s}
+.olvide:hover{color:var(--oro-claro)}
+.mensaje{padding:.8rem 1rem;border-radius:10px;font-size:.85rem;font-weight:400;display:none;line-height:1.5}
+.mensaje.error{display:block;background:rgba(220,90,90,.12);border:1px solid rgba(220,90,90,.35);color:#f0a0a0}
+.mensaje.ok{display:block;background:rgba(90,200,120,.1);border:1px solid rgba(90,200,120,.3);color:#a7d9b0}
+.volver-inicio{position:relative;z-index:5;text-align:center;padding:0 0 2rem;font-size:.78rem;letter-spacing:.1em;color:rgba(245,242,234,.4);transition:color .3s}
+.volver-inicio:hover{color:var(--oro-claro)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}.grain{display:none}}
+</style>
+</head>
+<body>
+<div class="halo halo-a"></div>
+<div class="halo halo-b"></div>
+<div id="escena"></div>
+<div class="grain"></div>
+
+<div class="tope">
+  <a href="index.html" class="marca">VERCELLI</a>
+</div>
+
+<div class="centro">
+  <div class="tarjeta">
+    <div class="tarjeta-sobre">Bienvenido</div>
+    <h1 class="tarjeta-titulo" id="titulo">Inicia sesion</h1>
+    <p class="tarjeta-sub" id="subtitulo">Accede a tu cuenta de Vercelli</p>
+
+    <div class="tabs">
+      <button class="tab activo" id="tabLogin">Iniciar sesion</button>
+      <button class="tab" id="tabRegistro">Registrarse</button>
+    </div>
+
+    <div class="mensaje" id="mensaje"></div>
+
+    <!-- LOGIN -->
+    <form class="form activo" id="formLogin">
+      <div class="campo">
+        <label for="loginEmail">Correo</label>
+        <input type="email" id="loginEmail" placeholder="tu@correo.com" autocomplete="email" required>
+      </div>
+      <div class="campo">
+        <label for="loginPass">Contraseña</label>
+        <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-enviar" id="btnLogin">Entrar</button>
+      <div class="olvide" id="olvide">Olvide mi contraseña</div>
+      <div class="link-cambio">¿No tienes cuenta? <b id="irRegistro">Registrate</b></div>
+    </form>
+
+    <!-- REGISTRO -->
+    <form class="form" id="formRegistro">
+      <div class="campo">
+        <label for="regNombre">Nombre completo</label>
+        <input type="text" id="regNombre" placeholder="Tu nombre" autocomplete="name" required>
+      </div>
+      <div class="campo">
+        <label for="regEmail">Correo</label>
+        <input type="email" id="regEmail" placeholder="tu@correo.com" autocomplete="email" required>
+      </div>
+      <div class="campo">
+        <label for="regPass">Contraseña</label>
+        <input type="password" id="regPass" placeholder="Minimo 6 caracteres" autocomplete="new-password" required>
+      </div>
+      <div class="campo">
+        <label for="regPass2">Confirmar contraseña</label>
+        <input type="password" id="regPass2" placeholder="Repite tu contraseña" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="btn-enviar" id="btnRegistro">Crear cuenta</button>
+      <div class="link-cambio">¿Ya tienes cuenta? <b id="irLogin">Inicia sesion</b></div>
+    </form>
+  </div>
+</div>
+
+<a href="index.html" class="volver-inicio">&#8592; Volver al inicio</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function lerp(a,b,n){ return a+(b-a)*n; }
+
+var db = supabase.createClient('https://oasusarhjochiiunefbd.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hc3VzYXJoam9jaGlpdW5lZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjY1NzAsImV4cCI6MjA5NDc0MjU3MH0.5nbsj38T1aIriNi3ugnIWGI3o6_RskhuKKddefexBVM');
+
+/* Escena de particulas de fondo */
+function iniciarEscena(){
+  if(!window.THREE || reduced) return;
+  try{
+    var cont = document.getElementById('escena');
+    var renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setSize(innerWidth, innerHeight);
+    cont.appendChild(renderer.domElement);
+    var escena = new THREE.Scene();
+    var cam = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, .1, 200); cam.position.z=14;
+    var n = innerWidth<768?400:900; var pos=new Float32Array(n*3);
+    for(var i=0;i<n;i++){ pos[i*3]=(Math.random()-.5)*44; pos[i*3+1]=(Math.random()-.5)*30; pos[i*3+2]=(Math.random()-.5)*20-2; }
+    var geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    var polvo=new THREE.Points(geo,new THREE.PointsMaterial({color:0xD4B48A,size:.06,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false}));
+    escena.add(polvo);
+    var mX=0,mY=0;
+    document.addEventListener('pointermove',function(e){ mX=(e.clientX/innerWidth-.5)*2; mY=(e.clientY/innerHeight-.5)*2; },{passive:true});
+    var reloj=new THREE.Clock();
+    (function cuadro(){ requestAnimationFrame(cuadro); if(document.hidden) return;
+      var t=reloj.getElapsedTime(); polvo.rotation.y=t*.02;
+      cam.position.x=lerp(cam.position.x,mX*1.2,.04); cam.position.y=lerp(cam.position.y,-mY*.8,.04); cam.lookAt(0,0,0);
+      renderer.render(escena,cam); })();
+    window.addEventListener('resize',function(){ cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+  }catch(e){}
+}
+iniciarEscena();
+
+/* Tabs */
+var tabLogin=document.getElementById('tabLogin'), tabRegistro=document.getElementById('tabRegistro');
+var formLogin=document.getElementById('formLogin'), formRegistro=document.getElementById('formRegistro');
+var titulo=document.getElementById('titulo'), subtitulo=document.getElementById('subtitulo');
+var mensaje=document.getElementById('mensaje');
+
+function mostrarLogin(){
+  tabLogin.classList.add('activo'); tabRegistro.classList.remove('activo');
+  formLogin.classList.add('activo'); formRegistro.classList.remove('activo');
+  titulo.textContent='Inicia sesion'; subtitulo.textContent='Accede a tu cuenta de Vercelli';
+  limpiarMensaje();
+}
+function mostrarRegistro(){
+  tabRegistro.classList.add('activo'); tabLogin.classList.remove('activo');
+  formRegistro.classList.add('activo'); formLogin.classList.remove('activo');
+  titulo.textContent='Crea tu cuenta'; subtitulo.textContent='Guarda tus propiedades favoritas';
+  limpiarMensaje();
+}
+tabLogin.addEventListener('click', mostrarLogin);
+tabRegistro.addEventListener('click', mostrarRegistro);
+document.getElementById('irRegistro').addEventListener('click', mostrarRegistro);
+document.getElementById('irLogin').addEventListener('click', mostrarLogin);
+
+function error(txt){ mensaje.className='mensaje error'; mensaje.textContent=txt; }
+function ok(txt){ mensaje.className='mensaje ok'; mensaje.textContent=txt; }
+function limpiarMensaje(){ mensaje.className='mensaje'; mensaje.textContent=''; }
+
+/* Traducir errores comunes de Supabase */
+function traducir(msg){
+  msg=(msg||'').toLowerCase();
+  if(msg.includes('invalid login')) return 'Correo o contraseña incorrectos.';
+  if(msg.includes('already registered') || msg.includes('already been registered')) return 'Este correo ya esta registrado. Inicia sesion.';
+  if(msg.includes('password should be')) return 'La contraseña debe tener al menos 6 caracteres.';
+  if(msg.includes('unable to validate email') || msg.includes('invalid email')) return 'El correo no es valido.';
+  if(msg.includes('email not confirmed')) return 'Debes confirmar tu correo antes de entrar. Revisa tu bandeja.';
+  return 'Ocurrio un error. Intenta de nuevo.';
+}
+
+/* Redirigir segun rol */
+function redirigirSegunRol(userId){
+  db.from('perfiles').select('rol').eq('id', userId).single()
+    .then(function(res){
+      var rol = res.data ? res.data.rol : 'cliente';
+      if(rol === 'admin'){ window.location.href='admin.html'; }
+      else { window.location.href='catalogo.html'; }
+    })
+    .catch(function(){ window.location.href='catalogo.html'; });
+}
+
+/* LOGIN */
+formLogin.addEventListener('submit', function(e){
+  e.preventDefault();
+  limpiarMensaje();
+  var email=document.getElementById('loginEmail').value.trim();
+  var pass=document.getElementById('loginPass').value;
+  var btn=document.getElementById('btnLogin');
+  btn.disabled=true; btn.textContent='Entrando...';
+  db.auth.signInWithPassword({email:email, password:pass})
+    .then(function(res){
+      if(res.error){ error(traducir(res.error.message)); btn.disabled=false; btn.textContent='Entrar'; return; }
+      ok('Bienvenido. Redirigiendo...');
+      redirigirSegunRol(res.data.user.id);
+    })
+    .catch(function(){ error('No se pudo conectar. Intenta de nuevo.'); btn.disabled=false; btn.textContent='Entrar'; });
+});
+
+/* REGISTRO */
+formRegistro.addEventListener('submit', function(e){
+  e.preventDefault();
+  limpiarMensaje();
+  var nombre=document.getElementById('regNombre').value.trim();
+  var email=document.getElementById('regEmail').value.trim();
+  var pass=document.getElementById('regPass').value;
+  var pass2=document.getElementById('regPass2').value;
+  if(pass!==pass2){ error('Las contraseñas no coinciden.'); return; }
+  if(pass.length<6){ error('La contraseña debe tener al menos 6 caracteres.'); return; }
+  var btn=document.getElementById('btnRegistro');
+  btn.disabled=true; btn.textContent='Creando cuenta...';
+  db.auth.signUp({
+    email:email, password:pass,
+    options:{ data:{ nombre_completo:nombre } }
+  }).then(function(res){
+    if(res.error){ error(traducir(res.error.message)); btn.disabled=false; btn.textContent='Crear cuenta'; return; }
+    /* Si Supabase requiere confirmacion de correo, session viene null */
+    if(res.data.session){
+      ok('Cuenta creada. Redirigiendo...');
+      redirigirSegunRol(res.data.user.id);
+    } else {
+      ok('Cuenta creada. Revisa tu correo para confirmarla y luego inicia sesion.');
+      btn.disabled=false; btn.textContent='Crear cuenta';
+      setTimeout(mostrarLogin, 2500);
+    }
+  }).catch(function(){ error('No se pudo conectar. Intenta de nuevo.'); btn.disabled=false; btn.textContent='Crear cuenta'; });
+});
+
+/* Olvide contraseña */
+document.getElementById('olvide').addEventListener('click', function(){
+  var email=document.getElementById('loginEmail').value.trim();
+  if(!email){ error('Escribe tu correo arriba y vuelve a tocar aqui.'); return; }
+  db.auth.resetPasswordForEmail(email).then(function(res){
+    if(res.error){ error('No se pudo enviar el correo de recuperacion.'); return; }
+    ok('Te enviamos un correo para restablecer tu contraseña.');
+  });
+});
+
+/* Si ya hay sesion activa, redirigir directo */
+db.auth.getSession().then(function(res){
+  if(res.data.session){ redirigirSegunRol(res.data.session.user.id); }
+});
+})();
+</script>
+</body>
+</html>

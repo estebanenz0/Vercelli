@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vende con nosotros — Vercelli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--noche:#0A1428;--noche-2:#0D1B33;--marino:#1B2B4B;--oro:#D4B48A;--oro-claro:#E9D5B3;--crema:#F5F2EA;--linea-oro:rgba(212,180,138,.35);--linea-crema:rgba(245,242,234,.10);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',-apple-system,sans-serif;--curva:cubic-bezier(.22,1,.36,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--noche);color:var(--crema);-webkit-font-smoothing:antialiased;line-height:1.6;min-height:100vh}
+::selection{background:var(--oro);color:var(--noche)}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}
+.halo{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(90px);opacity:.45}
+.halo-a{width:52vw;height:52vw;left:-18vw;top:-16vw;background:radial-gradient(circle,#22375f 0%,transparent 65%)}
+.halo-b{width:40vw;height:40vw;right:-14vw;bottom:-12vh;background:radial-gradient(circle,rgba(212,180,138,.18) 0%,transparent 65%)}
+#escena{position:fixed;inset:0;z-index:0;pointer-events:none}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.3rem clamp(1.2rem,4vw,3.5rem);background:rgba(10,20,40,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--linea-crema)}
+.nav-izq{display:flex;align-items:center;gap:1.4rem}
+.nav-marca{display:flex;align-items:center}
+.nav-punto{width:12px;height:12px;border-radius:50%;background:var(--oro);box-shadow:0 0 0 4px rgba(212,180,138,.14);display:block}
+.nav-volver{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:rgba(245,242,234,.7);display:flex;align-items:center;gap:.5rem;transition:color .3s,gap .35s var(--curva)}
+.nav-volver:hover{color:var(--oro-claro);gap:.8rem}
+.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:9rem clamp(1.2rem,4vw,2rem) 5rem;display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;min-height:100vh}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;gap:2.5rem;min-height:0}}
+.intro .eyebrow{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;font-weight:600;color:var(--oro);display:inline-flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.intro .eyebrow::before{content:'';width:38px;height:1px;background:var(--linea-oro)}
+.intro h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.08;margin-bottom:1.2rem}
+.intro h1 em{font-style:italic;color:var(--oro-claro)}
+.intro p{color:rgba(245,242,234,.68);font-weight:300;line-height:1.9;margin-bottom:1.4rem;max-width:46ch}
+.ventajas{list-style:none;display:flex;flex-direction:column;gap:.9rem;margin-top:1.6rem}
+.ventajas li{display:flex;gap:.8rem;align-items:flex-start;font-size:.92rem;font-weight:300;color:rgba(245,242,234,.8)}
+.ventajas li::before{content:'';flex-shrink:0;width:18px;height:18px;margin-top:2px;border-radius:50%;background:rgba(212,180,138,.16);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4B48A' stroke-width='3'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
+.tarjeta{background:rgba(13,27,51,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--linea-crema);border-radius:22px;padding:clamp(2rem,4vw,2.8rem);box-shadow:0 40px 90px -40px rgba(0,0,0,.8)}
+.tarjeta h2{font-family:var(--serif);font-weight:500;font-size:1.7rem;margin-bottom:.4rem}
+.tarjeta .sub{font-size:.85rem;color:rgba(245,242,234,.55);font-weight:300;margin-bottom:1.8rem}
+.campo{margin-bottom:1.1rem}
+.campo label{display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,242,234,.55);font-weight:500;margin-bottom:.45rem}
+.campo input,.campo textarea{width:100%;background:rgba(245,242,234,.05);border:1px solid var(--linea-crema);border-radius:11px;padding:.85rem 1rem;color:var(--crema);font-size:.95rem;font-family:inherit;outline:none;transition:border-color .3s,background .3s}
+.campo input::placeholder,.campo textarea::placeholder{color:rgba(245,242,234,.35)}
+.campo input:focus,.campo textarea:focus{border-color:var(--oro);background:rgba(245,242,234,.08)}
+.campo textarea{resize:vertical;min-height:90px}
+.btn-enviar{width:100%;background:var(--oro);color:var(--noche);border:none;border-radius:11px;padding:1rem;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;transition:transform .3s,box-shadow .3s,opacity .3s;margin-top:.4rem}
+.btn-enviar:hover{transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(212,180,138,.5)}
+.btn-enviar:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
+.msg{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;font-size:.85rem;display:none;line-height:1.5}
+.msg.ok{display:block;background:rgba(61,220,127,.1);border:1px solid rgba(61,220,127,.3);color:#a7e0bd}
+.msg.error{display:block;background:rgba(224,96,96,.1);border:1px solid rgba(224,96,96,.35);color:#f0a8a8}
+.exito{text-align:center;display:none}
+.exito.visible{display:block;animation:aparecer .5s var(--curva)}
+@keyframes aparecer{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.exito-ic{width:70px;height:70px;margin:0 auto 1.4rem;border-radius:50%;background:rgba(61,220,127,.12);border:1px solid rgba(61,220,127,.35);display:flex;align-items:center;justify-content:center}
+.exito-ic svg{width:34px;height:34px;stroke:#3ddc7f;fill:none;stroke-width:2}
+.exito h2{font-family:var(--serif);font-size:1.9rem;margin-bottom:.6rem}
+.exito p{color:rgba(245,242,234,.6);font-weight:300;margin-bottom:1.6rem}
+.exito a{display:inline-block;border:1px solid var(--linea-oro);color:var(--oro-claro);padding:.8rem 1.8rem;border-radius:99px;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+</style>
+</head>
+<body>
+<div class="halo halo-a"></div>
+<div class="halo halo-b"></div>
+<div id="escena"></div>
+<header class="nav">
+  <div class="nav-izq">
+    <a href="index.html" class="nav-marca" aria-label="Inicio"><span class="nav-punto"></span></a>
+    <a href="catalogo.html" class="nav-volver"><span>&#8592;</span> Volver al catalogo</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <div class="eyebrow">Vende con nosotros</div>
+    <h1>Vende tu propiedad <em>con confianza</em></h1>
+    <p>Dejanos tus datos y un asesor de Vercelli te contactara para acompañarte en todo el proceso, sin complicaciones.</p>
+    <ul class="ventajas">
+      <li>Te contactamos personalmente, sin formularios eternos</li>
+      <li>Presentamos tu propiedad con fotografia y detalle profesional</li>
+      <li>Te acompañamos hasta cerrar la operacion</li>
+    </ul>
+  </div>
+
+  <div>
+    <div class="tarjeta" id="tarjetaForm">
+      <h2>Cuentanos de tu propiedad</h2>
+      <p class="sub">Te respondemos a la brevedad.</p>
+      <div class="campo">
+        <label for="nombre">Nombre completo</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" autocomplete="name">
+      </div>
+      <div class="campo">
+        <label for="telefono">Telefono / WhatsApp</label>
+        <input type="tel" id="telefono" placeholder="Ej: 70000000" autocomplete="tel">
+      </div>
+      <div class="campo">
+        <label for="correo">Correo (opcional)</label>
+        <input type="email" id="correo" placeholder="tu@correo.com" autocomplete="email">
+      </div>
+      <div class="campo">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" placeholder="Cuentanos brevemente que propiedad quieres vender..."></textarea>
+      </div>
+      <button class="btn-enviar" id="btnEnviar">Enviar solicitud</button>
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="tarjeta exito" id="exito">
+      <div class="exito-ic"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+      <h2>Solicitud enviada</h2>
+      <p>Gracias por confiar en Vercelli. Un asesor te contactara muy pronto.</p>
+      <a href="catalogo.html">Volver al catalogo</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function lerp(a,b,n){return a+(b-a)*n;}
+var db = supabase.createClient('https://oasusarhjochiiunefbd.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hc3VzYXJoam9jaGlpdW5lZmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjY1NzAsImV4cCI6MjA5NDc0MjU3MH0.5nbsj38T1aIriNi3ugnIWGI3o6_RskhuKKddefexBVM');
+
+/* Particulas de fondo */
+if(window.THREE && !reduced){ try{
+  var cont=document.getElementById('escena');
+  var rd=new THREE.WebGLRenderer({alpha:true,antialias:true}); rd.setPixelRatio(Math.min(devicePixelRatio,2)); rd.setSize(innerWidth,innerHeight); cont.appendChild(rd.domElement);
+  var sc=new THREE.Scene(); var cam=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,200); cam.position.z=14;
+  var n=innerWidth<768?350:800; var pos=new Float32Array(n*3);
+  for(var i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*44;pos[i*3+1]=(Math.random()-.5)*30;pos[i*3+2]=(Math.random()-.5)*20-2;}
+  var g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var pt=new THREE.Points(g,new THREE.PointsMaterial({color:0xD4B48A,size:.06,transparent:true,opacity:.45,blending:THREE.AdditiveBlending,depthWrite:false})); sc.add(pt);
+  var mX=0,mY=0; document.addEventListener('pointermove',function(e){mX=(e.clientX/innerWidth-.5)*2;mY=(e.clientY/innerHeight-.5)*2;},{passive:true});
+  var rl=new THREE.Clock();
+  (function loop(){requestAnimationFrame(loop); if(document.hidden)return; var t=rl.getElapsedTime(); pt.rotation.y=t*.02; cam.position.x=lerp(cam.position.x,mX*1.2,.04); cam.position.y=lerp(cam.position.y,-mY*.8,.04); cam.lookAt(0,0,0); rd.render(sc,cam);})();
+  window.addEventListener('resize',function(){cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();rd.setSize(innerWidth,innerHeight);});
+}catch(e){} }
+
+var msg=document.getElementById('msg');
+function error(t){ msg.className='msg error'; msg.textContent=t; }
+function limpiar(){ msg.className='msg'; msg.textContent=''; }
+
+document.getElementById('btnEnviar').addEventListener('click', function(){
+  limpiar();
+  var nombre=document.getElementById('nombre').value.trim();
+  var telefono=document.getElementById('telefono').value.trim();
+  var correo=document.getElementById('correo').value.trim();
+  var mensaje=document.getElementById('mensaje').value.trim();
+  if(!nombre){ error('Por favor escribe tu nombre.'); return; }
+  if(!telefono){ error('Por favor deja un telefono de contacto.'); return; }
+  var btn=document.getElementById('btnEnviar');
+  btn.disabled=true; btn.textContent='Enviando...';
+  db.from('solicitudes_venta').insert({nombre:nombre, telefono:telefono, correo:correo||null, mensaje:mensaje||null})
+    .then(function(res){
+      if(res.error){ error('No se pudo enviar. Intenta de nuevo o escribenos por WhatsApp.'); btn.disabled=false; btn.textContent='Enviar solicitud'; return; }
+      document.getElementById('tarjetaForm').style.display='none';
+      document.getElementById('exito').classList.add('visible');
+    })
+    .catch(function(){ error('No se pudo conectar. Intenta de nuevo.'); btn.disabled=false; btn.textContent='Enviar solicitud'; });
+});
+})();
+</script>
+</body>
+</html>
