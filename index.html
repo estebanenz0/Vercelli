@@ -7,7 +7,7 @@
 <meta name="description" content="Vercelli combina tecnologia, diseño y estrategia para hacer crecer tu negocio. Inmobiliaria, paginas web y marketing en La Paz, Bolivia.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=block" rel="stylesheet">
 <style>
 /* ============================================================
    VERCELLI — Sistema de diseño
@@ -863,7 +863,7 @@ window.addEventListener('load', function(){
   var cifra = document.getElementById('cargadorCifra');
   var tl = gsap.timeline();
   tl.to('#cargadorMarca span', {y:'0%', duration:.85, stagger:.055, ease:'power3.out'})
-    .to(progreso, {v:100, duration:1.5, ease:'power2.inOut',
+    .to(progreso, {v:100, duration:2.2, ease:'power2.inOut',
       onUpdate:function(){
         var v = Math.round(progreso.v);
         cifra.textContent = v + '%';
