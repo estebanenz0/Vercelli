@@ -512,6 +512,22 @@ html.precarga .hero-marca-fallback{opacity:0 !important}
 .hero-titulo.brillo{background:none!important;animation:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important}
 .hero-titulo.brillo .wi{color:var(--crema)!important;-webkit-text-fill-color:var(--crema)!important}
 .hero-titulo.brillo em{color:var(--oro-claro)!important;-webkit-text-fill-color:var(--oro-claro)!important}
+
+/* ---------- Sin golpe al terminar la carga ---------- */
+/* Reserva el espacio de la barra de scroll desde el inicio: al desbloquear
+   el scroll ya no aparece de golpe y el contenido no se desplaza. */
+html{scrollbar-gutter:stable}
+
+/* ---------- Hero centrado en el logo (sin titulo secundario) ---------- */
+.hero-marca-canvas{top:44%}
+.hero-marca-fallback{top:44%}
+.hero-sub{margin-top:clamp(17rem,46vh,28rem)}
+@media (max-width:1100px){
+  .hero-sub{margin-top:clamp(12rem,35vh,20rem)}
+}
+@media (max-width:640px){
+  .hero-sub{margin-top:clamp(10rem,29vh,15rem)}
+}
 </style>
 </head>
 <body class="lock">
@@ -563,7 +579,6 @@ html.precarga .hero-marca-fallback{opacity:0 !important}
     <div class="hero-sobre" data-intro>Bienes raices · Web · Marketing</div>
     <canvas class="hero-marca-canvas" id="marcaCanvas" aria-hidden="true"></canvas>
     <h1 class="hero-marca-fallback" id="marcaFallback">VERCELLI</h1>
-    <h2 class="hero-titulo" id="heroTitulo">Tu socio en <em>bienes raices</em>, presencia digital y marketing.</h2>
     <p class="hero-sub" data-intro>Combinamos tecnologia, diseño y estrategia para hacer crecer tu negocio con la precision de una casa de lujo.</p>
     <div class="hero-acciones" data-intro>
       <a class="btn btn-oro" href="#servicios" data-hover>Conoce nuestros servicios</a>
@@ -846,11 +861,6 @@ window.addEventListener('load', function(){
     });
   });
 
-  /* Titulo secundario del hero dividido en palabras */
-  var titulo = document.getElementById('heroTitulo');
-  var palabras = dividirPalabras(titulo);
-  gsap.set(palabras, {yPercent: 115});
-
   /* Deteccion de WebGL: si falla, mostrar la marca en texto */
   (function(){
     try{
@@ -881,8 +891,7 @@ window.addEventListener('load', function(){
     document.documentElement.classList.remove('precarga');
   }});
   intro.to('#nav', {y:0, opacity:1, duration:.9, ease:'power3.out'})
-    .to(palabras, {yPercent:0, duration:1.15, stagger:.05, ease:'power4.out'}, .1)
-    .to('[data-intro]', {y:0, opacity:1, duration:1, stagger:.12, ease:'power3.out'}, .75);
+    .to('[data-intro]', {y:0, opacity:1, duration:1, stagger:.12, ease:'power3.out'}, .35);
 
   /* Secuencia del cargador */
   var progreso = {v:0};
