@@ -2,8 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<script>document.documentElement.classList.add('precarga');
-setTimeout(function(){ document.documentElement.classList.remove('precarga'); }, 8000);</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vercelli — Bienes raices, presencia digital y marketing</title>
 <meta name="description" content="Vercelli combina tecnologia, diseño y estrategia para hacer crecer tu negocio. Inmobiliaria, paginas web y marketing en La Paz, Bolivia.">
@@ -494,24 +492,6 @@ img{max-width:100%;display:block}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .grain{display:none}
 }
-
-/* ---------- Precarga: el hero arranca oculto (evita el destello) ---------- */
-html.precarga #nav,
-html.precarga .hero-sobre,
-html.precarga .hero-titulo,
-html.precarga .hero-sub,
-html.precarga .hero-acciones,
-html.precarga .hero-scroll,
-html.precarga .hero-marca-canvas,
-html.precarga .hero-marca-fallback{opacity:0 !important}
-
-/* Fundido elegante al aparecer */
-.hero-titulo,.hero-marca-canvas,.hero-marca-fallback{transition:opacity .95s ease}
-
-/* Seguridad: el titulo nunca puede quedar invisible (evita el parpadeo) */
-.hero-titulo.brillo{background:none!important;animation:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important}
-.hero-titulo.brillo .wi{color:var(--crema)!important;-webkit-text-fill-color:var(--crema)!important}
-.hero-titulo.brillo em{color:var(--oro-claro)!important;-webkit-text-fill-color:var(--oro-claro)!important}
 </style>
 </head>
 <body class="lock">
@@ -813,7 +793,6 @@ window.addEventListener('load', function(){
   /* Sin GSAP o con motion reducido: mostrar todo directo */
   if(!window.gsap || reduced){
     document.documentElement.classList.add('sin-motion');
-    document.documentElement.classList.remove('precarga');
     cargador.style.display = 'none';
     document.body.classList.remove('lock');
     return;
@@ -872,17 +851,11 @@ window.addEventListener('load', function(){
   });
 
   /* Intro del hero (pausada hasta que termine el cargador) */
-  /* Estado inicial explicito: evita el salto brusco de .from() */
-  gsap.set('#nav', {y:-24, opacity:0});
-  gsap.set('[data-intro]', {y:26, opacity:0});
-
-  var intro = gsap.timeline({paused:true, onStart:function(){
-    /* Recien aqui el hero deja de estar oculto: entra con fundido */
-    document.documentElement.classList.remove('precarga');
-  }});
-  intro.to('#nav', {y:0, opacity:1, duration:.9, ease:'power3.out'})
+  var intro = gsap.timeline({paused:true});
+  intro.from('#nav', {y:-24, opacity:0, duration:.9, ease:'power3.out'})
     .to(palabras, {yPercent:0, duration:1.15, stagger:.05, ease:'power4.out'}, .1)
-    .to('[data-intro]', {y:0, opacity:1, duration:1, stagger:.12, ease:'power3.out'}, .75);
+    .add(function(){ titulo.classList.add('brillo'); }, 1.05)
+    .from('[data-intro]', {y:26, opacity:0, duration:1, stagger:.12, ease:'power3.out'}, .75);
 
   /* Secuencia del cargador */
   var progreso = {v:0};
@@ -890,21 +863,18 @@ window.addEventListener('load', function(){
   var cifra = document.getElementById('cargadorCifra');
   var tl = gsap.timeline();
   tl.to('#cargadorMarca span', {y:'0%', duration:.85, stagger:.055, ease:'power3.out'})
-    .to(progreso, {v:100, duration:2.4, ease:'power1.inOut',
+    .to(progreso, {v:100, duration:2.2, ease:'power2.inOut',
       onUpdate:function(){
         var v = Math.round(progreso.v);
         cifra.textContent = v + '%';
-        barra.style.transform = 'scaleX(' + (progreso.v/100) + ')';
-      }}, .25)
-    .to(cargador, {yPercent:-100, duration:1.05, ease:'power4.inOut', delay:.25,
+        barra.style.transform = 'scaleX(' + (v/100) + ')';
+      }}, .3)
+    .to(cargador, {yPercent:-100, duration:1.05, ease:'power4.inOut', delay:.2,
       onStart:function(){ intro.play(); },
       onComplete:function(){
         cargador.style.display = 'none';
         document.body.classList.remove('lock');
       }});
-
-  /* Respaldo: si algo falla, el hero aparece igual */
-  setTimeout(function(){ document.documentElement.classList.remove('precarga'); }, 6000);
 
   /* Revelados al hacer scroll */
   gsap.utils.toArray('[data-reveal]').forEach(function(el){
