@@ -531,6 +531,9 @@ html{scrollbar-gutter:stable}
 .transicion-velo{position:fixed;inset:0;z-index:9999;background:#0A1428;opacity:0;pointer-events:none;transition:opacity .75s ease}
 .transicion-velo.oculto{opacity:0}
 .transicion-velo.saliendo{opacity:1;pointer-events:all}
+html.precarga .cursor-dot,
+html.precarga .cursor-ring{opacity:0!important}
+.cursor-dot,.cursor-ring{transition:opacity .6s ease}
 </style>
 </head>
 <body class="lock">
