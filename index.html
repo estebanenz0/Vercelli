@@ -528,9 +528,13 @@ html{scrollbar-gutter:stable}
 @media (max-width:640px){
   .hero-sub{margin-top:clamp(10rem,29vh,15rem)}
 }
+.transicion-velo{position:fixed;inset:0;z-index:9999;background:#0A1428;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.transicion-velo.oculto{opacity:0}
+.transicion-velo.saliendo{opacity:1;pointer-events:all}
 </style>
 </head>
 <body class="lock">
+<div class="transicion-velo" id="transicionVelo"></div>
 
 <!-- Cargador -->
 <div class="cargador" id="cargador">
@@ -1234,6 +1238,22 @@ function iniciarEscena(){
   } catch(err){ /* si WebGL falla, los halos CSS sostienen la atmosfera */ }
 }
 
+})();
+</script>
+<script>
+(function(){
+  var velo = document.getElementById('transicionVelo');
+  requestAnimationFrame(function(){ velo.classList.add('oculto'); });
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(!href || href.charAt(0)==='#' || href.indexOf('http')===0 || href.indexOf('mailto')===0 || href.indexOf('tel')===0 || a.target==='_blank') return;
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      velo.classList.remove('oculto');
+      velo.classList.add('saliendo');
+      setTimeout(function(){ window.location.href = href; }, 480);
+    });
+  });
 })();
 </script>
 </body>

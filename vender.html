@@ -56,9 +56,13 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}
 .exito h2{font-family:var(--serif);font-size:1.9rem;margin-bottom:.6rem}
 .exito p{color:rgba(245,242,234,.6);font-weight:300;margin-bottom:1.6rem}
 .exito a{display:inline-block;border:1px solid var(--linea-oro);color:var(--oro-claro);padding:.8rem 1.8rem;border-radius:99px;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.transicion-velo{position:fixed;inset:0;z-index:9999;background:#0A1428;opacity:1;pointer-events:none;transition:opacity .5s ease}
+.transicion-velo.oculto{opacity:0}
+.transicion-velo.saliendo{opacity:1;pointer-events:all}
 </style>
 </head>
 <body>
+<div class="transicion-velo" id="transicionVelo"></div>
 <div class="halo halo-a"></div>
 <div class="halo halo-b"></div>
 <div id="escena"></div>
@@ -160,6 +164,22 @@ document.getElementById('btnEnviar').addEventListener('click', function(){
     })
     .catch(function(){ error('No se pudo conectar. Intenta de nuevo.'); btn.disabled=false; btn.textContent='Enviar solicitud'; });
 });
+})();
+</script>
+<script>
+(function(){
+  var velo = document.getElementById('transicionVelo');
+  requestAnimationFrame(function(){ velo.classList.add('oculto'); });
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(!href || href.charAt(0)==='#' || href.indexOf('http')===0 || href.indexOf('mailto')===0 || href.indexOf('tel')===0 || a.target==='_blank') return;
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      velo.classList.remove('oculto');
+      velo.classList.add('saliendo');
+      setTimeout(function(){ window.location.href = href; }, 480);
+    });
+  });
 })();
 </script>
 </body>
