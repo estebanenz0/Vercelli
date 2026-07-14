@@ -222,9 +222,11 @@ img{max-width:100%;display:block}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .grain{display:none}
 }
-.transicion-velo{position:fixed;inset:0;z-index:9999;background:#0A1428;opacity:1;pointer-events:none;transition:opacity .5s ease}
+.transicion-velo{position:fixed;inset:0;z-index:9999;background:#0A1428;opacity:1;pointer-events:none;transition:opacity .75s ease}
 .transicion-velo.oculto{opacity:0}
 .transicion-velo.saliendo{opacity:1;pointer-events:all}
+.hero,.wrap,.centro{opacity:0;transition:opacity .8s ease .1s}
+html.pagina-lista .hero,html.pagina-lista .wrap,html.pagina-lista .centro{opacity:1}
 </style>
 </head>
 <body>
@@ -790,7 +792,25 @@ cargarPropiedades();
 <script>
 (function(){
   var velo = document.getElementById('transicionVelo');
-  requestAnimationFrame(function(){ velo.classList.add('oculto'); });
+  if(!velo) return;
+  var hecho = false;
+  function revelar(){
+    if(hecho) return; hecho = true;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        velo.classList.add('oculto');
+        document.documentElement.classList.add('pagina-lista');
+      });
+    });
+  }
+  var fuentes = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+  var cargado = new Promise(function(res){
+    if(document.readyState === 'complete') res();
+    else window.addEventListener('load', res);
+  });
+  Promise.all([fuentes, cargado]).then(revelar);
+  setTimeout(revelar, 2500);
+
   document.querySelectorAll('a[href]').forEach(function(a){
     var href = a.getAttribute('href');
     if(!href || href.charAt(0)==='#' || href.indexOf('http')===0 || href.indexOf('mailto')===0 || href.indexOf('tel')===0 || a.target==='_blank') return;
@@ -798,7 +818,7 @@ cargarPropiedades();
       e.preventDefault();
       velo.classList.remove('oculto');
       velo.classList.add('saliendo');
-      setTimeout(function(){ window.location.href = href; }, 480);
+      setTimeout(function(){ window.location.href = href; }, 520);
     });
   });
 })();
