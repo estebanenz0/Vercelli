@@ -355,6 +355,14 @@ window.addEventListener('load', function(){
       setTimeout(function(){ window.location.href = href; }, 520);
     });
   });
+
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted){
+      velo.classList.remove('saliendo');
+      velo.classList.add('oculto');
+      document.documentElement.classList.add('pagina-lista');
+    }
+  });
 })();
 </script>
 </body>
