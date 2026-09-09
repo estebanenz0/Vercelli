@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nosotros — Vercelli</title>
-<meta name="description" content="Somos Vercelli: propiedades seleccionadas y marketing estrategico en La Paz. Un equipo que crece con sus clientes, con vision y compromiso real.">
+<meta name="description" content="Somos Vercelli: bienes raices, paginas web y marketing. Un equipo que crece con sus clientes, con vision, mision y compromiso real.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -123,7 +123,7 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .casos-cab h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.12;margin-bottom:.8rem}
 .casos-cab h2 em{font-style:italic;color:var(--oro-claro)}
 .casos-cab p{color:rgba(245,242,234,.55);font-weight:300}
-.casos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:1150px;margin:0 auto}
+.casos-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:1000px;margin:0 auto}
 .caso{background:rgba(13,27,51,.5);border:1px solid var(--linea-crema);border-radius:20px;padding:2.4rem 2.2rem;transition:transform .5s var(--curva),border-color .4s}
 .caso:hover{transform:translateY(-5px);border-color:var(--linea-oro)}
 .caso-nombre{font-family:var(--serif);font-weight:600;font-size:1.8rem;color:var(--oro-claro);margin-bottom:.4rem}
@@ -134,20 +134,14 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .caso ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
 .caso li{font-size:.85rem;font-weight:300;color:rgba(245,242,234,.66);padding-left:1.1rem;position:relative;line-height:1.5}
 .caso li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--oro)}
-.certif{background:var(--noche)}
-.certif-cab{text-align:center;max-width:640px;margin:0 auto 3.5rem}
-.certif-num{font-family:var(--serif);font-weight:600;font-size:clamp(3.4rem,10vw,6.5rem);color:var(--oro-claro);line-height:1;margin-bottom:.2rem}
-.certif-cab h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.7rem,3.6vw,2.6rem);margin-bottom:1rem;line-height:1.15}
-.certif-cab h2 em{font-style:italic;color:var(--oro-claro)}
-.certif-cab p{color:rgba(245,242,234,.6);font-weight:300;margin:0 auto;line-height:1.85}
-.certif-areas{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;max-width:1080px;margin:0 auto}
-.certif-area{background:rgba(13,27,51,.4);border:1px solid var(--linea-crema);border-radius:16px;padding:1.7rem 1.8rem;transition:border-color .4s,transform .5s var(--curva),background .4s}
-.certif-area:hover{border-color:var(--linea-oro);transform:translateY(-3px);background:rgba(13,27,51,.65)}
-.certif-area h3{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:1.1rem;padding-bottom:.8rem;border-bottom:1px solid var(--linea-crema)}
-.certif-chips{display:flex;flex-wrap:wrap;gap:.5rem}
-.certif-chips span{font-size:.78rem;font-weight:400;color:rgba(245,242,234,.7);border:1px solid var(--linea-crema);border-radius:99px;padding:.42rem .95rem;transition:border-color .3s,color .3s,background .3s}
-.certif-chips span:hover{border-color:var(--oro);color:var(--oro-claro);background:rgba(212,180,138,.06)}
-@media (max-width:760px){.certif-areas{grid-template-columns:1fr}}
+.certif{background:var(--noche);text-align:center}
+.certif-num{font-family:var(--serif);font-weight:600;font-size:clamp(4rem,12vw,8rem);color:var(--oro-claro);line-height:1;margin-bottom:.3rem}
+.certif h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.4rem);margin-bottom:1.2rem}
+.certif h2 em{font-style:italic;color:var(--oro-claro)}
+.certif>p{color:rgba(245,242,234,.6);font-weight:300;max-width:54ch;margin:0 auto 2.8rem;line-height:1.85}
+.certif-tags{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;max-width:920px;margin:0 auto}
+.certif-tag{font-size:.8rem;font-weight:400;color:rgba(245,242,234,.72);border:1px solid var(--linea-crema);border-radius:99px;padding:.6rem 1.3rem;transition:border-color .3s,color .3s,background .3s}
+.certif-tag:hover{border-color:var(--oro);color:var(--oro-claro);background:rgba(212,180,138,.06)}
 .cta{background:var(--noche-2);text-align:center;overflow:hidden}
 .cta::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:80vw;height:80vw;border-radius:50%;background:radial-gradient(circle,rgba(212,180,138,.10) 0%,transparent 60%);pointer-events:none}
 .cta h2{position:relative;font-family:var(--serif);font-weight:500;font-size:clamp(2.3rem,6vw,4.6rem);line-height:1.1;max-width:18ch;margin:0 auto 1.4rem}
@@ -202,7 +196,7 @@ html.pagina-lista .hero,html.pagina-lista .wrap,html.pagina-lista .centro{opacit
   <div id="escena"></div>
   <div class="hero-sobre">Nosotros</div>
   <h1 class="hero-titulo">Un equipo que crece <em>con sus clientes.</em></h1>
-  <p class="hero-sub">Somos Vercelli. Unimos la gestion de propiedades y el marketing estrategico bajo una misma idea: hacer las cosas bien, con criterio y con resultados que se puedan medir.</p>
+  <p class="hero-sub">Somos Vercelli. Unimos bienes raices, desarrollo web y marketing bajo una misma idea: hacer las cosas bien, con criterio y con resultados que se puedan medir.</p>
 </section>
 
 <!-- HISTORIA -->
@@ -210,8 +204,8 @@ html.pagina-lista .hero,html.pagina-lista .wrap,html.pagina-lista .centro{opacit
   <div class="historia-grid">
     <div>
       <div class="eyebrow" data-reveal>Quienes somos</div>
-      <h2 data-reveal>Una sola casa, <em>dos formas de hacerte crecer.</em></h2>
-      <p data-reveal>Vercelli nace para acompañar a personas y negocios en las decisiones que importan: encontrar la propiedad correcta y construir una marca que la gente recuerde.</p>
+      <h2 data-reveal>Una sola casa, <em>tres formas de hacerte crecer.</em></h2>
+      <p data-reveal>Vercelli nace para acompañar a personas y negocios en las decisiones que importan: encontrar la propiedad correcta, tener una presencia digital a la altura y construir una marca que la gente recuerde.</p>
       <p data-reveal>Trabajamos cada proyecto con un enfoque personalizado y responsable, como si fuera nuestro propio negocio. Creemos en la transparencia, en la ejecucion cuidada y en estar presentes despues de entregar, no solo antes.</p>
     </div>
     <div class="historia-visual" data-reveal>
@@ -298,19 +292,6 @@ html.pagina-lista .hero,html.pagina-lista .wrap,html.pagina-lista .centro{opacit
   </div>
   <div class="casos-grid">
     <div class="caso" data-reveal>
-      <div class="caso-nombre">Oris</div>
-      <div class="caso-tag">Odontologia</div>
-      <div class="caso-metrica"><span>+30.000</span></div>
-      <div class="caso-metrica-label">vistas en TikTok con solo tres videos, y +10.000 en Instagram en tres semanas.</div>
-      <ul>
-        <li>Estrategia de marca e identidad elegante y sobria</li>
-        <li>Contenido de video corto, promociones e informativo</li>
-        <li>Paquetes de descuento manteniendo la coherencia de marca</li>
-        <li>Reportes de rendimiento semanales</li>
-        <li>Empezaron desde cero: todos los objetivos cumplidos y superados</li>
-      </ul>
-    </div>
-    <div class="caso" data-reveal>
       <div class="caso-nombre">O'Taco</div>
       <div class="caso-tag">Gastronomia</div>
       <div class="caso-metrica"><span>+150%</span></div>
@@ -339,76 +320,23 @@ html.pagina-lista .hero,html.pagina-lista .wrap,html.pagina-lista .centro{opacit
 
 <!-- CERTIFICACIONES -->
 <section class="seccion certif">
-  <div class="certif-cab">
-    <div class="eyebrow" style="justify-content:center" data-reveal>Formacion</div>
-    <div class="certif-num" data-reveal>+28</div>
-    <h2 data-reveal>Certificaciones <em>que respaldan cada decision</em></h2>
-    <p data-reveal>Nuestro equipo se forma de manera constante. Detras de cada estrategia hay formacion real en las areas que sostienen un trabajo de calidad.</p>
-  </div>
-  <div class="certif-areas">
-    <div class="certif-area" data-reveal>
-      <h3>Estrategia y ventas</h3>
-      <div class="certif-chips">
-        <span>Atraccion y conversion de prospectos</span>
-        <span>Inteligencia comercial</span>
-        <span>Analisis financiero</span>
-        <span>Plan de marketing digital</span>
-      </div>
-    </div>
-    <div class="certif-area" data-reveal>
-      <h3>Marketing digital</h3>
-      <div class="certif-chips">
-        <span>Marketing digital</span>
-        <span>Marketing para pequeñas empresas</span>
-        <span>Redes sociales para emprendedores</span>
-        <span>Content marketing</span>
-        <span>Inbound marketing</span>
-        <span>Email marketing</span>
-      </div>
-    </div>
-    <div class="certif-area" data-reveal>
-      <h3>Marca y branding</h3>
-      <div class="certif-chips">
-        <span>Implementacion y desarrollo de marcas</span>
-        <span>Branding y estrategia de marca</span>
-        <span>Branding y marca personal</span>
-      </div>
-    </div>
-    <div class="certif-area" data-reveal>
-      <h3>Redes y comunidad</h3>
-      <div class="certif-chips">
-        <span>Community management</span>
-        <span>Influencer marketing</span>
-      </div>
-    </div>
-    <div class="certif-area" data-reveal>
-      <h3>Consumidor y datos</h3>
-      <div class="certif-chips">
-        <span>Gestion e inteligencia del consumidor</span>
-        <span>Analisis del consumidor</span>
-        <span>Segmentacion de clientes</span>
-        <span>Investigacion de mercado</span>
-        <span>CRM</span>
-      </div>
-    </div>
-    <div class="certif-area" data-reveal>
-      <h3>Publicidad</h3>
-      <div class="certif-chips">
-        <span>Estrategia de medios publicitarios</span>
-        <span>Publicidad digital</span>
-        <span>Publicidad en Facebook</span>
-        <span>Google Ads</span>
-      </div>
-    </div>
-    <div class="certif-area" data-reveal>
-      <h3>Ecommerce y analitica</h3>
-      <div class="certif-chips">
-        <span>Ecommerce</span>
-        <span>Ecosistema digital</span>
-        <span>SEO</span>
-        <span>Google Analytics 4</span>
-      </div>
-    </div>
+  <div class="eyebrow" style="justify-content:center" data-reveal>Formacion</div>
+  <div class="certif-num" data-reveal>+40</div>
+  <h2 data-reveal>Certificaciones <em>internacionales</em></h2>
+  <p data-reveal>Nuestro equipo se forma constantemente en las areas que sostienen un trabajo de calidad. Estas son algunas de las disciplinas que respaldan lo que hacemos.</p>
+  <div class="certif-tags">
+    <span class="certif-tag" data-reveal>Marketing digital</span>
+    <span class="certif-tag" data-reveal>Publicidad en redes</span>
+    <span class="certif-tag" data-reveal>Estrategia de marca</span>
+    <span class="certif-tag" data-reveal>Branding</span>
+    <span class="certif-tag" data-reveal>Creacion de contenido</span>
+    <span class="certif-tag" data-reveal>Gestion de comunidades</span>
+    <span class="certif-tag" data-reveal>Diseño grafico</span>
+    <span class="certif-tag" data-reveal>Fotografia comercial</span>
+    <span class="certif-tag" data-reveal>Crecimiento empresarial</span>
+    <span class="certif-tag" data-reveal>Ventas y negociacion</span>
+    <span class="certif-tag" data-reveal>Analitica de datos</span>
+    <span class="certif-tag" data-reveal>Atencion al cliente</span>
   </div>
 </section>
 
