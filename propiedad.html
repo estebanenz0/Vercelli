@@ -259,7 +259,7 @@ html.pagina-lista .hero,html.pagina-lista .wrap,html.pagina-lista .centro{opacit
   <!-- UBICACION -->
   <section class="seccion ubicacion">
     <div class="contenedor">
-      <div class="eyebrow">Ubicacion</div>
+      <div class="eyebrow">Ubicación</div>
       <h2 class="sec-titulo">Donde <em>esta</em></h2>
       <div class="mapa-ph">
         <div class="zona" id="ubiZona">—</div>
@@ -451,7 +451,7 @@ function render(){
     ['Baños', p.banos],
     ['Garajes', p.garajes]
   ]);
-  specsHTML += especCard('Ubicacion', [
+  specsHTML += especCard('Ubicación', [
     ['Zona', p.zona],
     ['Ciudad', p.ciudad],
     ['Direccion', p.direccion]
@@ -469,7 +469,7 @@ function render(){
 
   /* Contacto fijo */
   document.getElementById('cfPrecio').textContent = precio;
-  var msg = encodeURIComponent('Hola Vercelli, me interesa la propiedad "'+(p.titulo||'')+'" ('+precio+'). Quiero mas informacion.');
+  var msg = encodeURIComponent('Hola Vercelli, me interesa la propiedad "'+(p.titulo||'')+'" ('+precio+'). Quiero mas información.');
   document.getElementById('cfBtn').href = WA+'?text='+msg;
 
   /* Mostrar */
