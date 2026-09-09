@@ -700,8 +700,8 @@ function activarMapa(){
   if(!mapaIniciado){
     mapaIniciado = true;
     mapaCat = L.map('mapaCatalogo', {scrollWheelZoom:true, zoomControl:true}).setView([-16.5, -68.13], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19, subdomains:'abcd'
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'&copy; OpenStreetMap', maxZoom:19
     }).addTo(mapaCat);
     capaMarcadores = L.layerGroup().addTo(mapaCat);
     mapaCat.on('moveend', actualizarListaVisible);
