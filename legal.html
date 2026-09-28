@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<title>Aviso legal — Vercelli</title>
+<meta name="description" content="Politica de privacidad, terminos y condiciones y uso de cookies de Vercelli.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--noche:#0A1428;--noche-2:#0D1B33;--marino:#1B2B4B;--oro:#D4B48A;--oro-claro:#E9D5B3;--crema:#F5F2EA;--linea-oro:rgba(212,180,138,.35);--linea-crema:rgba(245,242,234,.10);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',-apple-system,sans-serif;--curva:cubic-bezier(.22,1,.36,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--noche);color:var(--crema);-webkit-font-smoothing:antialiased;line-height:1.7;min-height:100vh}
+::selection{background:var(--oro);color:var(--noche)}
+a{color:inherit;text-decoration:none}
+.halo{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(90px);opacity:.35}
+.halo-a{width:50vw;height:50vw;left:-18vw;top:-16vw;background:radial-gradient(circle,#22375f 0%,transparent 65%)}
+.halo-b{width:36vw;height:36vw;right:-12vw;top:30vh;background:radial-gradient(circle,rgba(212,180,138,.14) 0%,transparent 65%)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.3rem clamp(1.2rem,4vw,3.5rem);background:rgba(10,20,40,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--linea-crema)}
+.nav-izq{display:flex;align-items:center;gap:1.4rem}
+.nav-marca{display:flex;align-items:center}
+.nav-punto{width:12px;height:12px;border-radius:50%;background:var(--oro);box-shadow:0 0 0 4px rgba(212,180,138,.14);display:block}
+.nav-volver{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:rgba(245,242,234,.7);display:flex;align-items:center;gap:.5rem;transition:color .3s,gap .35s var(--curva)}
+.nav-volver:hover{color:var(--oro-claro);gap:.8rem}
+.nav-marca-txt{font-family:var(--serif);font-weight:600;font-size:1.15rem;letter-spacing:.28em;text-indent:.28em}
+.wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:8rem clamp(1.4rem,5vw,2rem) 5rem}
+.cab{margin-bottom:2.5rem;text-align:center}
+.eyebrow{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;font-weight:600;color:var(--oro);display:inline-flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
+.eyebrow::before,.eyebrow::after{content:'';width:34px;height:1px;background:var(--linea-oro)}
+.cab h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1.05}
+.cab .fecha{color:rgba(245,242,234,.45);font-weight:300;font-size:.85rem;margin-top:.8rem}
+.indice{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:2.4rem 0 3rem;padding-bottom:2.4rem;border-bottom:1px solid var(--linea-crema)}
+.indice a{font-size:.78rem;letter-spacing:.06em;color:var(--oro-claro);border:1px solid var(--linea-oro);border-radius:99px;padding:.55rem 1.2rem;transition:background .3s,transform .3s}
+.indice a:hover{background:rgba(212,180,138,.1);transform:translateY(-1px)}
+.seccion{margin-bottom:3.2rem;scroll-margin-top:6rem}
+.seccion-num{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--oro);display:block;margin-bottom:.4rem}
+.seccion h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.2rem);margin-bottom:1.4rem;padding-bottom:1rem;border-bottom:1px solid var(--linea-crema)}
+.seccion h3{font-size:1rem;font-weight:600;color:var(--oro-claro);margin:1.8rem 0 .7rem;letter-spacing:.01em}
+.seccion p{color:rgba(245,242,234,.78);font-weight:300;margin-bottom:1rem}
+.seccion ul{list-style:none;margin:0 0 1.2rem}
+.seccion li{color:rgba(245,242,234,.78);font-weight:300;padding-left:1.5rem;position:relative;margin-bottom:.6rem}
+.seccion li::before{content:'';position:absolute;left:.2rem;top:.65em;width:5px;height:5px;border-radius:50%;background:var(--oro)}
+.seccion strong{color:var(--crema);font-weight:500}
+.seccion a.enlace{color:var(--oro-claro);text-decoration:underline;text-underline-offset:2px}
+.nota-legal{background:rgba(212,180,138,.07);border:1px solid var(--linea-oro);border-radius:14px;padding:1.4rem 1.6rem;margin:2.5rem 0;font-size:.88rem;color:rgba(245,242,234,.7);font-weight:300}
+.contacto-box{background:rgba(13,27,51,.5);border:1px solid var(--linea-crema);border-radius:16px;padding:1.8rem 2rem;margin-top:1rem}
+.contacto-box p{margin-bottom:.5rem}
+.arriba{display:inline-block;margin-top:1rem;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,234,.45);transition:color .3s}
+.arriba:hover{color:var(--oro-claro)}
+.pie{position:relative;z-index:2;background:#081020;padding:3rem clamp(1.4rem,6vw,4.5rem) 2rem;border-top:1px solid var(--linea-crema);text-align:center;margin-top:3rem}
+.pie-marca{font-family:var(--serif);font-weight:600;font-size:1.3rem;letter-spacing:.3em;text-indent:.3em;margin-bottom:.8rem}
+.pie-links{display:flex;gap:1.4rem;justify-content:center;flex-wrap:wrap;margin:1.2rem 0}
+.pie-links a{font-size:.78rem;color:rgba(245,242,234,.55);transition:color .3s}
+.pie-links a:hover{color:var(--oro-claro)}
+.pie-base{font-size:.72rem;letter-spacing:.1em;color:rgba(245,242,234,.35);margin-top:1rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="halo halo-a"></div>
+<div class="halo halo-b"></div>
+
+<header class="nav">
+  <div class="nav-izq">
+    <a href="index.html" class="nav-marca" aria-label="Inicio"><span class="nav-punto"></span></a>
+    <a href="index.html" class="nav-volver"><span>&#8592;</span> Volver</a>
+  </div>
+  <a href="index.html" class="nav-marca-txt">VERCELLI</a>
+</header>
+
+<div class="wrap">
+  <div class="cab">
+    <div class="eyebrow">Informacion legal</div>
+    <h1>Aviso legal</h1>
+    <p class="fecha">Ultima actualizacion: octubre de 2026</p>
+  </div>
+
+  <nav class="indice">
+    <a href="#privacidad">Politica de privacidad</a>
+    <a href="#terminos">Terminos y condiciones</a>
+    <a href="#cookies">Cookies</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <!-- PRIVACIDAD -->
+  <section class="seccion" id="privacidad">
+    <span class="seccion-num">I</span>
+    <h2>Politica de privacidad</h2>
+    <p>En Vercelli respetamos tu privacidad y nos comprometemos a proteger los datos personales que compartes con nosotros. Esta politica explica que informacion recogemos, como la usamos y cuales son tus derechos.</p>
+
+    <h3>Que informacion recogemos</h3>
+    <p>Recogemos unicamente la informacion necesaria para brindarte nuestros servicios:</p>
+    <ul>
+      <li><strong>Datos de cuenta:</strong> si te registras, guardamos tu nombre, correo electronico y una contraseña cifrada.</li>
+      <li><strong>Favoritos:</strong> si guardas propiedades como favoritas, asociamos esas propiedades a tu cuenta.</li>
+      <li><strong>Datos de contacto:</strong> cuando nos escribes por el formulario o WhatsApp, recibimos el nombre, telefono, correo y mensaje que decidas compartir.</li>
+      <li><strong>Datos tecnicos basicos:</strong> como cualquier sitio web, nuestro proveedor puede registrar informacion tecnica general de navegacion (tipo de dispositivo, navegador) con fines de funcionamiento y seguridad.</li>
+    </ul>
+
+    <h3>Como usamos tu informacion</h3>
+    <ul>
+      <li>Para permitirte iniciar sesion y guardar tus propiedades favoritas.</li>
+      <li>Para responder tus consultas y ponerte en contacto con nuestro equipo.</li>
+      <li>Para mejorar nuestros servicios y la experiencia del sitio.</li>
+    </ul>
+    <p>No vendemos, alquilamos ni compartimos tus datos personales con terceros para fines publicitarios.</p>
+
+    <h3>Donde se guardan tus datos</h3>
+    <p>Tus datos se almacenan de forma segura a traves de <strong>Supabase</strong>, nuestro proveedor de base de datos y autenticacion, que aplica estandares de seguridad y cifrado. Las contraseñas nunca se guardan en texto plano.</p>
+
+    <h3>Tus derechos</h3>
+    <p>Puedes solicitar en cualquier momento acceder a tus datos, corregirlos o eliminarlos. Para ejercer estos derechos, escribenos a los canales de contacto indicados al final de esta pagina.</p>
+  </section>
+
+  <!-- TERMINOS -->
+  <section class="seccion" id="terminos">
+    <span class="seccion-num">II</span>
+    <h2>Terminos y condiciones</h2>
+    <p>Al acceder y utilizar el sitio web de Vercelli, aceptas los siguientes terminos. Te pedimos leerlos con atencion.</p>
+
+    <h3>Sobre nuestros servicios</h3>
+    <p>Vercelli ofrece servicios de <strong>promocion y gestion de propiedades</strong> y de <strong>marketing digital</strong>. La informacion sobre propiedades publicada en este sitio tiene caracter informativo y no constituye una oferta contractual vinculante. Los precios, la disponibilidad y las caracteristicas de cada propiedad pueden cambiar y deben confirmarse directamente con nuestro equipo.</p>
+
+    <h3>Uso del sitio</h3>
+    <ul>
+      <li>Te comprometes a usar el sitio de forma licita y a proporcionar informacion veraz.</li>
+      <li>No esta permitido intentar acceder de forma no autorizada a nuestros sistemas ni interferir con el funcionamiento del sitio.</li>
+      <li>El contenido, diseño, textos y elementos visuales de este sitio son propiedad de Vercelli y no pueden reproducirse sin autorizacion.</li>
+    </ul>
+
+    <h3>Contacto y contratacion</h3>
+    <p>Cualquier acuerdo de servicio (ya sea de propiedades o de marketing) se coordina y formaliza de manera directa entre el cliente y nuestro equipo. Este sitio funciona como punto de contacto y presentacion, no como plataforma de contratacion automatica.</p>
+
+    <h3>Limitacion de responsabilidad</h3>
+    <p>Nos esforzamos por mantener la informacion actualizada y el sitio funcionando correctamente, pero no garantizamos que este libre de errores o interrupciones. Vercelli no se hace responsable por decisiones tomadas unicamente en base a la informacion publicada sin haberla confirmado con nuestro equipo.</p>
+  </section>
+
+  <!-- COOKIES -->
+  <section class="seccion" id="cookies">
+    <span class="seccion-num">III</span>
+    <h2>Politica de cookies</h2>
+    <p>Nuestro sitio usa una unica cookie tecnica: la que mantiene tu sesion activa cuando inicias sesion. Sin ella no podrias permanecer identificado mientras navegas.</p>
+    <p>No usamos cookies de publicidad, rastreo ni perfilado. No seguimos tu actividad en otros sitios. Por eso no mostramos un banner de consentimiento. Puedes borrar las cookies desde tu navegador cuando quieras, aunque eso cerrara tu sesion.</p>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="seccion" id="contacto">
+    <span class="seccion-num">IV</span>
+    <h2>Contacto</h2>
+    <p>Para cualquier consulta sobre esta informacion legal, tus datos personales o nuestros servicios, puedes escribirnos:</p>
+    <div class="contacto-box">
+      <p><strong>Vercelli</strong></p>
+      <p>La Paz, Bolivia</p>
+      <p>WhatsApp: <a class="enlace" href="https://wa.me/59162222274" target="_blank" rel="noopener">+591 62222274</a></p>
+      <p>Correo: <a class="enlace" href="mailto:vercelli.ef@gmail.com">vercelli.ef@gmail.com</a></p>
+    </div>
+    <div class="nota-legal">
+      Este aviso legal se ofrece con fines informativos y de transparencia. Vercelli se reserva el derecho de actualizar su contenido cuando sea necesario. Te recomendamos revisarlo periodicamente.
+    </div>
+    <a href="#" class="arriba">&#8593; Volver arriba</a>
+  </section>
+</div>
+
+<footer class="pie">
+  <div class="pie-marca">VERCELLI</div>
+  <div class="pie-links">
+    <a href="index.html">Inicio</a>
+    <a href="catalogo.html">Propiedades</a>
+    <a href="marketing.html">Marketing</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="legal.html">Legal</a>
+  </div>
+  <div class="pie-base">&copy; 2026 Vercelli — La Paz, Bolivia</div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var id=a.getAttribute('href');
+    if(id==='#'){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+    var t=document.querySelector(id);
+    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>
